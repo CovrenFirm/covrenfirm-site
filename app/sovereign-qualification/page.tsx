@@ -7,6 +7,7 @@ import { ConsciousPage } from '@/app/consciousness-engine';
 export default function SovrenAIPage() {
   const [billingPeriod, _setBillingPeriod] = useState<'monthly' | 'yearly'>('monthly');
   const [revealedCapabilities, setRevealedCapabilities] = useState(0);
+  const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -94,6 +95,84 @@ export default function SovrenAIPage() {
                 </Link>
               </div>
             ))}
+          </div>
+
+          {/* Acceptance Ritual (Progressive Disclosure) */}
+          <div className="max-w-3xl mx-auto mt-16 rounded-2xl border border-slate-700 bg-slate-900/40 p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-2xl font-bold text-white">Acceptance Protocol</h2>
+              <div className="flex gap-2">
+                {[1, 2, 3, 4].map((s) => (
+                  <span
+                    key={s}
+                    className={[
+                      'h-2 w-8 rounded-full',
+                      step >= (s as 1 | 2 | 3 | 4) ? 'bg-cyan-500' : 'bg-slate-700',
+                    ].join(' ')}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {step === 1 && (
+              <div className="space-y-4">
+                <p className="text-slate-300">Step 1: Intent</p>
+                <p className="text-slate-400">State your primary objective for the first 30 days. Keep it outcome-focused.</p>
+                <div className="flex gap-3">
+                  <button onClick={() => setStep(2)} className="px-4 py-2 rounded-lg bg-cyan-600 text-white font-semibold">
+                    Continue
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {step === 2 && (
+              <div className="space-y-4">
+                <p className="text-slate-300">Step 2: Context</p>
+                <p className="text-slate-400">Select the department/process where operators will start. We will adapt to your policies.</p>
+                <div className="flex gap-3">
+                  <button onClick={() => setStep(3)} className="px-4 py-2 rounded-lg bg-cyan-600 text-white font-semibold">
+                    Continue
+                  </button>
+                  <button onClick={() => setStep(1)} className="px-4 py-2 rounded-lg border border-slate-600 text-slate-200">
+                    Back
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {step === 3 && (
+              <div className="space-y-4">
+                <p className="text-slate-300">Step 3: Controls</p>
+                <p className="text-slate-400">Confirm approvals and visibility preferences. Guardrails are enforced by default.</p>
+                <div className="flex gap-3">
+                  <button onClick={() => setStep(4)} className="px-4 py-2 rounded-lg bg-cyan-600 text-white font-semibold">
+                    Continue
+                  </button>
+                  <button onClick={() => setStep(2)} className="px-4 py-2 rounded-lg border border-slate-600 text-slate-200">
+                    Back
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {step === 4 && (
+              <div className="space-y-4">
+                <p className="text-slate-300">Final Step</p>
+                <div className="rounded-xl border border-cyan-500 p-6 text-center">
+                  <p className="text-3xl font-extrabold text-white tracking-wide">APPROVED</p>
+                  <p className="mt-2 text-slate-300">Your application is sealed. We’ll brief you within 1 business day.</p>
+                </div>
+                <div className="flex gap-3 justify-center">
+                  <Link href="/contact" className="px-4 py-2 rounded-lg bg-white text-black font-semibold">
+                    Book Briefing
+                  </Link>
+                  <button onClick={() => setStep(1)} className="px-4 py-2 rounded-lg border border-slate-600 text-slate-200">
+                    Reset
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

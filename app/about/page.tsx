@@ -323,7 +323,7 @@ export default function AboutPage() {
             </p>
             <p className="text-lg text-gray-400 mb-6">
               They're optimizing for a future where businesses still pay rent on intelligence. 
-              Where success is limited by someone else's servers. Where your smartest employee 
+              Where success is limited by external dependencies. Where your smartest employee 
               works for your competition.
             </p>
             <p className="text-2xl font-bold text-orange-400 italic">

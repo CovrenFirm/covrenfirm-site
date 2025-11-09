@@ -33,7 +33,7 @@ export default function CustomAIDevelopmentPage() {
             <Zap className="w-12 h-12 text-blue-400 mb-4" />
             <h3 className="text-2xl font-bold text-white mb-3">Edge Deployment</h3>
             <p className="text-gray-300">
-              On-premise, cloud, or hybrid. Your AI, your environment, your rules.
+              Sovereign deployment model. Your AI, your policies, your outcomes.
             </p>
           </div>
 

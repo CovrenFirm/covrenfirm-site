@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useState } from 'react';
 import { ConsciousPage } from '@/app/consciousness-engine';
 import {
   Brain,
@@ -66,6 +67,31 @@ export default function SovrenAIPage() {
             title="Outcome Driven"
             text="Built to reduce cycle time and increase cashflow—not vanity metrics."
           />
+        </div>
+      </section>
+
+      {/* OPERATOR STATUS BOARD */}
+      <section className="mx-auto max-w-6xl px-6 py-16">
+        <h2 className="text-3xl md:text-4xl font-bold mb-6">Operator Status Board</h2>
+        <p className="text-zinc-300 mb-6">Curated snapshot of recent executive actions. Outcomes only.</p>
+        <div className="grid md:grid-cols-3 gap-4">
+          {[
+            { role: 'COO', when: 'Now', action: 'Resolved logistics exception; re-routed shipments', outcome: 'On-time maintained' },
+            { role: 'CFO', when: '2m ago', action: 'Flagged cashflow anomaly; issued vendor correction', outcome: 'Variance eliminated' },
+            { role: 'CLO', when: '6m ago', action: 'Reviewed outbound email batch for policy risks', outcome: 'Approved with guardrails' },
+            { role: 'CMO', when: '11m ago', action: 'Launched cohort experiment v3', outcome: 'Live with observability' },
+            { role: 'CTO', when: '18m ago', action: 'Synced system adapters and validated permissions', outcome: 'Green' },
+            { role: 'CHRO', when: '24m ago', action: 'Scheduled onboarding workflow for 3 hires', outcome: 'In progress' },
+          ].map((card, i) => (
+            <div key={i} className="rounded-xl border border-zinc-800 bg-black p-5">
+              <div className="flex items-center justify-between mb-2">
+                <p className="font-semibold">{card.role} Executive</p>
+                <span className="text-xs text-zinc-400">{card.when}</span>
+              </div>
+              <p className="text-zinc-300">{card.action}</p>
+              <p className="mt-2 text-sm text-emerald-400 font-semibold">{card.outcome}</p>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -147,6 +173,11 @@ export default function SovrenAIPage() {
         </div>
       </section>
 
+      {/* PRICING THROUGHPUT DELTAS (Interactive) */}
+      <section className="mx-auto max-w-6xl px-6 py-16">
+        <InteractiveDeltas />
+      </section>
+
       {/* ADD-ON: POWER SLOTS */}
       <section className="border-t border-zinc-900 bg-zinc-950">
         <div className="mx-auto max-w-6xl px-6 py-16">
@@ -156,7 +187,7 @@ export default function SovrenAIPage() {
               name="Power Slot — $990/month per slot"
               points={[
                 'Purpose: Add one additional AI executive beyond tier limits',
-                'GPU Allocation: Dedicated MIG slice or cpuset guarantee for sustained workload',
+                'Dedicated performance allocation for sustained workload',
                 'Typical Buyers: BUSINESS-tier subscribers requiring specialized roles (e.g., Chief Sustainability Officer, Chief Data Officer, VP of Product) or geographically distributed executive coverage',
               ]}
               cta={{ label: 'Discuss Power Slots', href: '/contact' }}
@@ -172,14 +203,13 @@ export default function SovrenAIPage() {
           <li className="flex items-start gap-2">
             <Check className="w-4 h-4 mt-1 text-cyan-400" />
             <span>
-              Global Name Uniqueness: Each executive gets a unique &quot;First M. Last&quot; LinkedIn-grade identity
-              (280,800 combination space)
+              Global Name Uniqueness: Each executive maintains a unique professional identity
             </span>
           </li>
           <li className="flex items-start gap-2">
             <Check className="w-4 h-4 mt-1 text-cyan-400" />
             <span>
-              Sovereign Execution: All AI processing self-hosted; zero API dependencies except Stripe + Skyetel
+              Sovereign Execution: Complete data sovereignty with strategic non‑AI services where appropriate
             </span>
           </li>
           <li className="flex items-start gap-2">
@@ -191,7 +221,7 @@ export default function SovrenAIPage() {
           </li>
           <li className="flex items-start gap-2">
             <Check className="w-4 h-4 mt-1 text-cyan-400" />
-            <span>Sub-200ms Duplex: Real-time voice conversations with MOS ≥4.85 quality</span>
+            <span>Real-time voice conversations with enterprise-grade quality</span>
           </li>
           <li className="flex items-start gap-2">
             <Check className="w-4 h-4 mt-1 text-cyan-400" />
@@ -317,6 +347,75 @@ function FAQ({ q, a }: { q: string; a: string }) {
     <div className="rounded-xl border border-zinc-800 p-5 bg-black">
       <p className="font-semibold">{q}</p>
       <p className="mt-2 text-zinc-400">{a}</p>
+    </div>
+  );
+}
+
+function InteractiveDeltas() {
+  const [horizon, setHorizon] = useState<'day1' | 'week1' | 'month1'>('day1');
+  const variants: Record<typeof horizon, { title: string; items: string[] }> = {
+    day1: {
+      title: 'Day 1 changes',
+      items: [
+        'Operator accounts provisioned and visible in status board',
+        'Approval workflow live for one core process',
+        'Proof-as-UI ledger embedded in your workspace',
+      ],
+    },
+    week1: {
+      title: 'Week 1 changes',
+      items: [
+        'Two primary workflows automated with guardrails',
+        'Executive handoffs reduce cycle time across one department',
+        'Owner-visible observability for all executive actions',
+      ],
+    },
+    month1: {
+      title: 'Month 1 changes',
+      items: [
+        'Expanded executive coverage across roles',
+        'Throughput improvements compound across processes',
+        'Leadership rituals established around sealed outcomes',
+      ],
+    },
+  };
+
+  const current = variants[horizon];
+
+  return (
+    <div className="rounded-2xl border border-zinc-800 bg-black p-6">
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="text-2xl font-bold">Throughput Deltas</h3>
+        <div className="flex gap-2">
+          <button
+            onClick={() => setHorizon('day1')}
+            className={['px-3 py-1 rounded-lg text-sm border', horizon === 'day1' ? 'border-cyan-500 text-cyan-300' : 'border-zinc-700 text-zinc-300'].join(' ')}
+          >
+            Day 1
+          </button>
+          <button
+            onClick={() => setHorizon('week1')}
+            className={['px-3 py-1 rounded-lg text-sm border', horizon === 'week1' ? 'border-cyan-500 text-cyan-300' : 'border-zinc-700 text-zinc-300'].join(' ')}
+          >
+            Week 1
+          </button>
+          <button
+            onClick={() => setHorizon('month1')}
+            className={['px-3 py-1 rounded-lg text-sm border', horizon === 'month1' ? 'border-cyan-500 text-cyan-300' : 'border-zinc-700 text-zinc-300'].join(' ')}
+          >
+            Month 1
+          </button>
+        </div>
+      </div>
+      <p className="text-zinc-400 mb-4">{current.title}</p>
+      <ul className="space-y-2 text-zinc-300">
+        {current.items.map((it, i) => (
+          <li key={i} className="flex items-start gap-2">
+            <Check className="w-4 h-4 mt-1 text-cyan-400" />
+            <span>{it}</span>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
