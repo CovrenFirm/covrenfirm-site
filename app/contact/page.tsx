@@ -40,7 +40,7 @@ export default function ContactPage() {
           </div>
           
           <p className="text-center text-gray-400 mt-8">
-            Or call directly: <a href="tel:(888) 326-4568" className="text-cyan-400 hover:text-cyan-300">(888) 326-4568</a>
+            Or call directly: <a href="tel:+18885046693" className="text-cyan-400 hover:text-cyan-300">(888) 504-6693</a>
           </p>
         </div>
       </div>
