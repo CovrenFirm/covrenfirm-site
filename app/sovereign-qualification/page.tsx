@@ -21,6 +21,38 @@ export default function SovrenAIPage() {
   const [notes, setNotes] = useState('');
   const [error, setError] = useState<string | null>(null);
 
+  type ControlPrefs = {
+    executiveVisibility: boolean;
+    legalVisibility: boolean;
+    externalApprovals: boolean;
+    realtimeSignals: boolean;
+  };
+
+  const DEPARTMENTS = [
+    { id: 'pipeline', label: 'Revenue pipeline' },
+    { id: 'support', label: 'Customer support' },
+    { id: 'ops', label: 'Operations' },
+    { id: 'legal', label: 'Legal review' },
+  ] as const;
+
+  const selectedTierDetails = React.useMemo(
+    () => (selectedTier ? SOVREN_PRICING.find((t) => t.id === selectedTier) ?? null : null),
+    [selectedTier]
+  );
+
+  function toggleControlPref(key: keyof ControlPrefs) {
+    setControlPrefs((prev) => ({ ...prev, [key]: !prev[key] }));
+  }
+
+  function handleAdvance(next: 1 | 2 | 3 | 4) {
+    if (next === 2 && !intent.trim()) {
+      setError('Please enter your primary objective.');
+      return;
+    }
+    setError(null);
+    setStep(next);
+  }
+
   return (
     <ConsciousPage title="Sovereign Qualification">
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
