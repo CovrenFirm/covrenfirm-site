@@ -6,11 +6,6 @@ import { useRouter } from 'next/navigation';
 import { CheckCircle, Phone, Mail } from 'lucide-react';
 import { OperatorLedger } from './components/OperatorLedger';
 import { ShadowBoard } from './components/ShadowBoard';
-<<<<<<< HEAD
-import { SovereigntyGauge } from './components/SovereigntyGauge';
-import { GlitchCipher } from './components/GlitchCipher';
-=======
->>>>>>> b4e8430b (Fix blog 404/SSR; footer Links+padding; About inline cost note; Demos modal+CTAs; homepage gradients; add pricing constants)
 
 export default function Home() {
   const bootLines = useMemo(
@@ -89,13 +84,9 @@ export default function Home() {
             ))}
           </div>
           <h1 className="mt-6 text-4xl md:text-6xl font-extrabold tracking-tight">
-<<<<<<< HEAD
-            Sovereign AI that <GlitchCipher>executes</GlitchCipher>. Not negotiates.
-=======
             <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
               Sovereign AI that executes. Not negotiates.
             </span>
->>>>>>> b4e8430b (Fix blog 404/SSR; footer Links+padding; About inline cost note; Demos modal+CTAs; homepage gradients; add pricing constants)
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-zinc-300">
             We turn chaos into throughput—building AI operators that erase drag and multiply cashflow. Absolute control.
@@ -181,11 +172,7 @@ export default function Home() {
 
       {/* QUICK LINKS */}
       <section className="border-t border-zinc-900 bg-zinc-950">
-<<<<<<< HEAD
-        <div className="mx-auto max-w-6xl px-6 py-10 grid gap-4 md:grid-cols-4">
-=======
         <div className="mx-auto max-w-6xl px-6 py-16 grid gap-6 md:grid-cols-4">
->>>>>>> b4e8430b (Fix blog 404/SSR; footer Links+padding; About inline cost note; Demos modal+CTAs; homepage gradients; add pricing constants)
           {[
             { label: 'SOVREN AI', href: '/services/sovren-ai' },
             { label: 'Services', href: '/services' },
@@ -195,11 +182,7 @@ export default function Home() {
             <Link
               key={l.href}
               href={l.href}
-<<<<<<< HEAD
-              className="rounded-xl border border-zinc-800 bg-black p-4 text-center font-semibold hover:bg-zinc-900 transition"
-=======
               className="rounded-2xl border border-zinc-800 bg-black p-6 text-center font-semibold hover:bg-zinc-950 transition"
->>>>>>> b4e8430b (Fix blog 404/SSR; footer Links+padding; About inline cost note; Demos modal+CTAs; homepage gradients; add pricing constants)
             >
               {l.label}
             </Link>
@@ -246,22 +229,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SOVEREIGNTY GAUGE */}
-      <section className="mx-auto max-w-6xl px-6 py-16">
-        <SovereigntyGauge />
-      </section>
-
       {/* DEMO ANCHOR */}
       <section id="demo" className="mx-auto max-w-6xl px-6 py-24">
-<<<<<<< HEAD
-        <h2 className="text-3xl md:text-4xl font-bold">Proof-as-UI</h2>
-=======
         <h2 className="text-3xl md:text-4xl font-bold">
           <span className="bg-gradient-to-r from-cyan-400 to-purple-600 bg-clip-text text-transparent">
             Proof-as-UI
           </span>
         </h2>
->>>>>>> b4e8430b (Fix blog 404/SSR; footer Links+padding; About inline cost note; Demos modal+CTAs; homepage gradients; add pricing constants)
         <p className="mt-4 max-w-2xl text-zinc-300">A live-feel snapshot of sealed actions and executive coverage. Outcomes only.</p>
         <div className="mt-8 grid gap-6 md:grid-cols-2">
           <ShadowBoard />
@@ -288,56 +262,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* TRUST SNAPSHOTS */}
-      <section className="border-t border-zinc-900 bg-zinc-950">
-        <div className="mx-auto max-w-6xl px-6 py-16">
-          <h2 className="text-3xl md:text-4xl font-bold">Outcomes in the wild</h2>
-          <div className="mt-6 grid gap-4 md:grid-cols-3">
-            {[
-              { title: 'Ops Resilience', body: 'Avoided $12k losses by rerouting around storm impacts', cta: '/case-studies' },
-              { title: 'Finance Control', body: 'Cycle time -38% after reconciliation overhaul', cta: '/case-studies' },
-              { title: 'Campaign Velocity', body: 'Cohort v3 deployed; ops ready in 14 minutes', cta: '/case-studies' },
-            ].map((c) => (
-              <a key={c.title} href={c.cta} className="rounded-xl border border-zinc-800 bg-black p-5 hover:bg-zinc-950 transition">
-                <h3 className="font-semibold">{c.title}</h3>
-                <p className="mt-2 text-zinc-400">{c.body}</p>
-                <span className="mt-3 inline-block text-sm text-cyan-300">View snapshots →</span>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ADAPTIVE NARRATIVE (local only) */}
-      <section className="mx-auto max-w-6xl px-6 py-16">
-        <AdaptiveNarrative />
-      </section>
     </main>
-  );
-}
-
-function AdaptiveNarrative() {
-  const [depth, setDepth] = useState(0);
-  useEffect(() => {
-    const onScroll = () => {
-      const y = typeof window !== 'undefined' ? window.scrollY : 0;
-      setDepth(y);
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-  const stage = depth > 1200 ? 3 : depth > 600 ? 2 : 1;
-  const copy = {
-    1: 'Start where control matters most. One workflow. Measurable gains.',
-    2: 'Extend executive coverage. Compound throughput across teams.',
-    3: 'Leadership rituals form around sealed outcomes. Sovereignty becomes culture.',
-  } as const;
-  return (
-    <div className="rounded-2xl border border-zinc-800 bg-black p-6">
-      <h3 className="text-xl font-bold mb-2">Where you are now</h3>
-      <p className="text-zinc-300">{copy[stage]}</p>
-      <p className="mt-2 text-xs text-zinc-500">Local-only adaptation. No tracking. No analytics.</p>
-    </div>
   );
 }
