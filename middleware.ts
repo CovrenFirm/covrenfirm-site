@@ -11,8 +11,8 @@ function cspRelaxed(): string {
     `default-src 'self'`,
 
     // scripts: allow self + https + inline (to support Next runtime inline chunks). No strict-dynamic.
-    `script-src 'self' 'unsafe-inline' https:`,
-    `script-src-elem 'self' 'unsafe-inline' https:`,
+    `script-src 'self' 'unsafe-inline' https: blob: data:`,
+    `script-src-elem 'self' 'unsafe-inline' https: blob: data:`,
     `script-src-attr 'unsafe-inline'`,
 
     // styles: allow inline for frameworks and small runtime styles

@@ -1,8 +1,8 @@
 'use client';
 
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { ConsciousPage } from '@/app/consciousness-engine';
 import { SOVREN_PRICING, POWER_SLOT_ADDON } from '@/lib/pricing';
 import type { SovrenTier } from '@/lib/pricing';
@@ -14,7 +14,7 @@ type ControlPrefs = {
 	realtimeSignals: boolean;
 };
 
-function SovrenQualificationClient() {
+export default function SovrenAIPage() {
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
   const [selectedTier, setSelectedTier] = useState<SovrenTier['id'] | null>(null);
   const [intent, setIntent] = useState('');
@@ -27,7 +27,6 @@ function SovrenQualificationClient() {
   });
   const [notes, setNotes] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const searchParams = useSearchParams();
   const router = useRouter();
 
   const DEPARTMENTS = [
@@ -55,13 +54,16 @@ function SovrenQualificationClient() {
     setStep(next);
   }
 
-  // Initialize selected tier from query param (?tier=...)
+  // Initialize selected tier from query param (?tier=...) without useSearchParams to avoid Suspense
   useEffect(() => {
-    const tierParam = searchParams.get('tier') as SovrenTier['id'] | null;
-    if (tierParam && ['solo', 'professional', 'business'].includes(tierParam)) {
-      setSelectedTier(tierParam);
-    }
-  }, [searchParams]);
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const tierParam = params.get('tier') as SovrenTier['id'] | null;
+      if (tierParam && ['solo', 'professional', 'business'].includes(tierParam)) {
+        setSelectedTier(tierParam);
+      }
+    } catch {}
+  }, []);
 
   return (
     <ConsciousPage title="Sovereign Qualification">
@@ -414,14 +416,6 @@ function SovrenQualificationClient() {
         </div>
       </div>
     </ConsciousPage>
-  );
-}
-
-export default function Page() {
-  return (
-    <Suspense fallback={<QualificationFallback />}>
-      <SovrenQualificationClient />
-    </Suspense>
   );
 }
 
