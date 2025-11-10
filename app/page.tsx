@@ -132,9 +132,6 @@ export default function Home() {
       typeof window !== 'undefined' &&
       window.matchMedia &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    setPrefersReducedMotion(prefersReduced);
-
     if (prefersReduced) {
       setVisibleCount(bootLines.length);
       return;
