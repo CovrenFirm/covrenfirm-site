@@ -131,6 +131,8 @@ export default function SovrenAIPage() {
               <Package
                 key={tier.id}
                 name={tier.name}
+                pricePerMonth={tier.pricePerMonth}
+                executivesCount={tier.executivesCount}
                 points={tier.summaryPoints}
                 cta={tier.cta}
                 badge={tier.badge ?? undefined}
@@ -252,12 +254,16 @@ function Line({ icon, text }: { icon: React.ReactNode; text: string }) {
 
 function Package({
   name,
+  pricePerMonth,
+  executivesCount,
   points,
   cta,
   badge,
   highlight,
 }: {
   name: string;
+  pricePerMonth?: number;
+  executivesCount?: string;
   points: string[];
   cta: { label: string; href: string };
   badge?: string;
@@ -278,6 +284,15 @@ function Package({
           </span>
         ) : null}
       </div>
+      {typeof pricePerMonth === 'number' ? (
+        <div className="mt-1 text-zinc-300">
+          <span className="text-3xl font-extrabold">${pricePerMonth}</span>
+          <span className="text-sm text-zinc-400"> / month</span>
+        </div>
+      ) : null}
+      {executivesCount ? (
+        <div className="mt-1 text-sm text-zinc-400">{executivesCount}</div>
+      ) : null}
       <ul className="mt-4 space-y-2 text-zinc-300">
         {points.map((p, i) => (
           <li key={i} className="flex items-start gap-2">

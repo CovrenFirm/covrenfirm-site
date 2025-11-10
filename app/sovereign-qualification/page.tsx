@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ConsciousPage } from '@/app/consciousness-engine';
@@ -27,6 +27,8 @@ export default function SovrenAIPage() {
   });
   const [notes, setNotes] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   const DEPARTMENTS = [
     { id: 'pipeline', label: 'Revenue pipeline' },
@@ -52,6 +54,14 @@ export default function SovrenAIPage() {
     setError(null);
     setStep(next);
   }
+
+  // Initialize selected tier from query param (?tier=...)
+  useEffect(() => {
+    const tierParam = searchParams.get('tier') as SovrenTier['id'] | null;
+    if (tierParam && ['solo', 'professional', 'business'].includes(tierParam)) {
+      setSelectedTier(tierParam);
+    }
+  }, [searchParams]);
 
   return (
     <ConsciousPage title="Sovereign Qualification">
@@ -84,6 +94,11 @@ export default function SovrenAIPage() {
                     </span>
                   ) : null}
                 </div>
+                <div className="mt-1 text-slate-300">
+                  <span className="text-3xl font-extrabold">${tier.pricePerMonth}</span>
+                  <span className="text-sm text-slate-400"> / month</span>
+                </div>
+                <div className="mt-1 text-sm text-slate-400">{tier.executivesCount}</div>
                 <ul className="mt-4 space-y-2 text-slate-300">
                   {tier.summaryPoints.map((p, i) => (
                     <li key={i} className="flex items-start gap-2">
@@ -93,12 +108,19 @@ export default function SovrenAIPage() {
                   ))}
                 </ul>
                 <div className="mt-6">
-                  <Link
-                    href={tier.cta.href}
+                  <button
+                    onClick={() => {
+                      setSelectedTier(tier.id);
+                      // replace URL query for shareability without full navigation
+                      const url = new URL(window.location.href);
+                      url.searchParams.set('tier', tier.id);
+                      router.replace(url.pathname + url.search);
+                      window.scrollTo({ top: document.getElementById('acceptance')?.offsetTop ?? 0, behavior: 'smooth' });
+                    }}
                     className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-colors inline-block text-center"
                   >
                     {tier.cta.label}
-                  </Link>
+                  </button>
                 </div>
               </div>
             ))}
@@ -132,7 +154,7 @@ export default function SovrenAIPage() {
           </div>
 
           {/* Acceptance Protocol */}
-          <div className="max-w-3xl mx-auto mt-16 rounded-2xl border border-slate-700 bg-slate-900/40 p-6">
+          <div id="acceptance" className="max-w-3xl mx-auto mt-16 rounded-2xl border border-slate-700 bg-slate-900/40 p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-2xl font-bold text-white">Acceptance Protocol</h2>
               <div className="flex gap-2">

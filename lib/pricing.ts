@@ -1,6 +1,8 @@
 export type SovrenTier = {
   id: 'solo' | 'professional' | 'business';
   name: string;
+  pricePerMonth: number;
+  executivesCount: string;
   summaryPoints: string[];
   cta: { label: string; href: string };
   badge?: string;
@@ -11,6 +13,8 @@ export const SOVREN_PRICING: SovrenTier[] = [
   {
     id: 'solo',
     name: 'Solo',
+    pricePerMonth: 199,
+    executivesCount: '2–3 AI executives',
     summaryPoints: [
       'One primary operator',
       'Guardrails and approvals',
@@ -21,6 +25,8 @@ export const SOVREN_PRICING: SovrenTier[] = [
   {
     id: 'professional',
     name: 'Professional',
+    pricePerMonth: 349,
+    executivesCount: '5–6 AI executives',
     summaryPoints: [
       'Multiple operators',
       'Expanded execution coverage',
@@ -33,6 +39,8 @@ export const SOVREN_PRICING: SovrenTier[] = [
   {
     id: 'business',
     name: 'Business',
+    pricePerMonth: 1199,
+    executivesCount: '9–10 AI executives',
     summaryPoints: [
       'C-suite operator coverage',
       'Custom approvals and policies',
@@ -45,9 +53,10 @@ export const SOVREN_PRICING: SovrenTier[] = [
 export const POWER_SLOT_ADDON = {
   name: 'Power Slots',
   descriptionPoints: [
+    'Add one additional AI executive beyond tier limits',
     'Burst capacity for high-demand periods',
     'Prioritized execution windows',
-    'No vendor disclosures; outcomes only',
+    'Outcomes-only framing; no vendor disclosures',
   ],
   cta: { label: 'Request Power Slots', href: '/sovereign-qualification?source=power-slots' },
 };
