@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import { Suspense, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ConsciousPage } from '@/app/consciousness-engine';
@@ -22,6 +22,14 @@ const DEPARTMENTS = [
 ] as const;
 
 export default function SovrenAIPage() {
+  return (
+    <Suspense fallback={<QualificationFallback />}>
+      <QualificationPageInner />
+    </Suspense>
+  );
+}
+
+function QualificationPageInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -431,6 +439,18 @@ useEffect(() => {
               </div>
             )}
           </div>
+        </div>
+      </div>
+    </ConsciousPage>
+  );
+}
+
+function QualificationFallback() {
+  return (
+    <ConsciousPage title="Sovereign Qualification">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+        <div className="container mx-auto px-6 py-24 text-center text-slate-400">
+          Preparing qualification interface…
         </div>
       </div>
     </ConsciousPage>
