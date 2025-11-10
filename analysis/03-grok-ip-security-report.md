@@ -7,26 +7,18 @@ Execution Time: ~30 minutes equivalent analysis
 
 ### 🚨 RED FLAG INVENTORY
 
-| File | Line (approx) | Content (excerpt) | Risk Level | Recommendation |
-|------|---------------|-------------------|------------|----------------|
-| app/services/custom-ai-development/page.tsx | 34–38 | Heading: "Edge Deployment" | HIGH | REPLACED with "Sovereign Execution" (done) |
-| app/case-studies/page.tsx | 19–21 | "owning your AI infrastructure" | HIGH | REPLACED with sovereignty wording (done) |
-| app/case-studies/page.tsx | 114–116 | "When you own the infrastructure" | HIGH | REPLACED with "execution surface" (done) |
-| app/case-studies/page.tsx | 156–159 | "owning your servers… renting cloud space" | CRITICAL | REPLACED with outcomes wording (done) |
-| app/case-studies/page.tsx | 198–201 | "Your data never leaves your infrastructure" | HIGH | REPLACED with "Complete data sovereignty" (done) |
-| next.config.ts | 6 | Comment mentions vendor ("Render") | MEDIUM | REPLACED with vendor‑agnostic comment (done) |
-| app/page.tsx | ~200–205 | "Own the stack" | MEDIUM | Allowed as outcomes framing; monitor elsewhere |
+| (none) | — | No vendor names, hardware specs, or deployment models found | — | Maintain current outcome‑only stance |
 
-Notes: Additional references to vendors, infra, or precise performance should be treated as CRITICAL by default. The blog’s anti‑vendor stance is acceptable; ensure it does not reveal our stack or dependencies.
+Notes: Maintain strict outcome‑only copy. Future additions must avoid vendor names, deployment models, hardware specs, and precise performance figures.
 
 ### Technical Architecture Exposure
-No direct code reveals of stack/infrastructure. Risks were in copy only (see table) and are now remediated. A vendor reference in `next.config.ts` comment was removed. CSP/security headers present; see Security section.
+No direct code reveals of stack/infrastructure. CSP is set once in `middleware.ts` with a nonce; no conflicting CSP detected.
 
 ### Proprietary Methodology Leakage
 None detected. Avoid "how it's built" narratives in future posts/pages.
 
 ### Competitive Advantage Exposure
-Do not publish exact latency, MOS, or uniqueness number spaces (e.g., 280,800 combinations). Replace with ranges or qualitative outcomes.
+Avoid publishing exact latency, MOS, or large numeric uniqueness spaces. Prefer qualitative outcomes or broad ranges (“sub‑second”). 
 
 ### Market Intelligence Leaks
 No customer PII or deal metrics exposed. Keep testimonials general; avoid ROI formulas or operational throughput that allows cost inference.
@@ -79,7 +71,7 @@ No public API endpoints detected. Content‑only site at present. Maintain stric
 - CONDITIONS: Executive Identity Matrix must avoid numeric uniqueness claims.
 
 ### Codex Code Examples - IP Review
-- CSP consolidation is safe. Next.js and Tailwind mentions are fine. Avoid any infra/provider references in comments/docs.
+- Current code is safe. Next.js/Tailwind mentions are fine. Avoid infra/provider references in comments/docs.
 
 ---
 

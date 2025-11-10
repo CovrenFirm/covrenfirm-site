@@ -12,18 +12,14 @@ Execution Time: ~25 minutes equivalent analysis
   - Update: Added Open Graph and Twitter metadata in `app/layout.tsx` for richer previews.
 
 ### Critical Performance Issues (Ranked)
-1) Conflicting CSP implementations:
-   - `middleware.ts` sets nonce-based strict CSP.
-   - Resolved: `next.config.ts` no longer sets CSP; middleware nonce CSP is authoritative.
-2) Motion budgets not defined:
+1) Motion budgets not defined:
    - Risk for future high-intensity interactions.
-   - Fix: Implemented `prefers-reduced-motion` guard in `app/consciousness-engine.tsx`; particles disabled when reduced; transitions shortened to 0. Adopt GPU-safe transforms only.
-3) Missing preloads/preconnects:
+   - Fix: Establish prefers-reduced-motion fallbacks; limit JS-driven animation; prefer CSS transforms.
+2) Missing preloads/preconnects:
    - Fonts not preloaded; images not `next/image`.
    - Fix: Use `next/font` or preload critical font; adopt `next/image` for hero and showcases.
-4) Initial JS payload for demo components:
-   - ShadowBoard/OperatorLedger hydrated above-the-fold.
-   - Fix: Added dynamic imports with SSR disabled and skeleton fallbacks in `app/page.tsx` to defer non-critical JS.
+3) Asset strategy:
+   - Ensure hero assets are sized/reserved to avoid CLS; lazy-load below-the-fold media.
 
 ### Animation Performance
 - Use GPU-friendly transforms (translate/scale/opacity), avoid expensive filters.
@@ -56,7 +52,7 @@ Execution Time: ~25 minutes equivalent analysis
 - Consider small `components/` library for reusables (CTA, Section, Ledger).
 
 ### Security Vulnerabilities (Code-Level)
-- None exploitable found. Strengthen CSP by removing permissive CSP in `next.config.ts`.
+- None exploitable found. CSP handled in `middleware.ts` with nonce; keep single source of truth.
 - Maintain HSTS; consider `includeSubDomains` if applicable to deployment tree.
 - Share with Grok Code for IP copy-level risks (separate from code).
 

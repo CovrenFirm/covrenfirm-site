@@ -2,9 +2,10 @@
 Lead: Grok Code | Reviewers: GPT-5 + Codex
 
 ## Immediate Actions Required
-- Remove all vendor, infrastructure, and performance specifics from page copy (completed in Sovren AI + Custom AI Development + About).
-- Consolidate CSP to nonce-based policy in `middleware.ts` and remove CSP header from `next.config.ts` (completed).
+- Verify all pages use outcome-only language (no vendors, infra, or precise metrics).
+- Keep CSP single-sourced in `middleware.ts` with nonce (no CSP in `next.config.ts`).
 - Establish automated IP-lint to block risky terms in future commits.
+- Ensure all forms that may lead to SMS outreach include explicit opt-in consent (added on Contact).
 
 ## Content Redaction Implementation
 1) Replace deployment or ownership models with outcomes-only language.
