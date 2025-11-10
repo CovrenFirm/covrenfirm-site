@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ConsciousPage } from '../consciousness-engine';
 
 import Link from 'next/link';
-import { Brain, ChevronRight, Clock, DollarSign, Eye } from 'lucide-react';
+import { Brain, ChevronRight, Clock, Eye } from 'lucide-react';
 
 export default function AboutPage() {
   const [readingTime, setReadingTime] = useState(0);
