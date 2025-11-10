@@ -46,11 +46,8 @@ export default function SovrenAIPage() {
   }
 
   function handleAdvance(next: 1 | 2 | 3 | 4) {
-    if (next === 2 && !intent.trim()) {
-      setError('Please enter your primary objective.');
-      return;
-    }
-    setError(null);
+    // Allow progressing without requiring intent to avoid UX dead-ends
+    if (error) setError(null);
     setStep(next);
   }
 
