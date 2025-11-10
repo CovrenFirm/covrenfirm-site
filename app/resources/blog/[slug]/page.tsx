@@ -75,14 +75,13 @@ const POSTS: Record<
   },
 };
 
-export default async function BlogPostPage({
-  // Next 15 can pass params as a Promise during build; typing like this keeps TS happy
+export default function BlogPostPage({
   params,
 }: {
-  params: Promise<RouteParams>;
+  params: RouteParams;
 }) {
   try {
-    const { slug } = await params;
+    const { slug } = params;
 
     const post = POSTS[slug];
     if (!post) {
@@ -98,23 +97,10 @@ export default async function BlogPostPage({
               <ArrowLeft className="w-4 h-4" />
               Back
             </Link>
-            <form
-              action={async () => {
-                'use server';
-                // server no-op; we don’t expose clipboard here
-              }}
-            >
-              <button className="inline-flex items-center gap-2 text-zinc-400 hover:text-zinc-200" title="Share" type="button"
-                onClick={() => {
-                  const url = typeof window !== 'undefined' ? window.location.href : '';
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  const nav: any = typeof window !== 'undefined' ? (window as unknown as { navigator?: Navigator }).navigator : undefined;
-                  if (nav?.clipboard && url) nav.clipboard.writeText(url);
-                }}>
-                <Share2 className="w-4 h-4" />
-                Share
-              </button>
-            </form>
+            <span className="inline-flex items-center gap-2 text-zinc-500 text-sm select-none" title="Sharing available in app UI">
+              <Share2 className="w-4 h-4" />
+              Share
+            </span>
           </div>
 
           {/* Header */}
