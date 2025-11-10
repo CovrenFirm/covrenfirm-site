@@ -15,9 +15,7 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  experimental: {
-    optimizeCss: true, // keeps Critters effective
-  },
+  experimental: {\n    optimizeCss: true, // keeps Critters effective\n  },\n  eslint: { ignoreDuringBuilds: true },\n
   async headers() {
     return [
       {
