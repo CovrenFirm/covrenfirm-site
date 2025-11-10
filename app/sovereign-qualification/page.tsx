@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ConsciousPage } from '@/app/consciousness-engine';
 import { SOVREN_PRICING, POWER_SLOT_ADDON } from '@/lib/pricing';
+import type { SovrenTier } from '@/lib/pricing';
 
 export default function SovrenAIPage() {
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
