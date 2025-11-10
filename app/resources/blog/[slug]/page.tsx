@@ -75,13 +75,13 @@ const POSTS: Record<
   },
 };
 
-export default function BlogPostPage({
+export default async function BlogPostPage({
   params,
 }: {
-  params: RouteParams;
+  params: Promise<RouteParams>;
 }) {
   try {
-    const { slug } = params;
+    const { slug } = await params;
 
     const post = POSTS[slug];
     if (!post) {
