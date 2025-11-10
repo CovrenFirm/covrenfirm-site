@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "ip:scan": "node scripts/ip-scan.mjs"
   },
   "dependencies": {
     "critters": "^0.0.22",
