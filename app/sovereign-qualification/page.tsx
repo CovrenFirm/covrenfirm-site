@@ -7,6 +7,13 @@ import { ConsciousPage } from '@/app/consciousness-engine';
 import { SOVREN_PRICING, POWER_SLOT_ADDON } from '@/lib/pricing';
 import type { SovrenTier } from '@/lib/pricing';
 
+type ControlPrefs = {
+	executiveVisibility: boolean;
+	legalVisibility: boolean;
+	externalApprovals: boolean;
+	realtimeSignals: boolean;
+};
+
 export default function SovrenAIPage() {
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
   const [selectedTier, setSelectedTier] = useState<SovrenTier['id'] | null>(null);
@@ -20,13 +27,6 @@ export default function SovrenAIPage() {
   });
   const [notes, setNotes] = useState('');
   const [error, setError] = useState<string | null>(null);
-
-  type ControlPrefs = {
-    executiveVisibility: boolean;
-    legalVisibility: boolean;
-    externalApprovals: boolean;
-    realtimeSignals: boolean;
-  };
 
   const DEPARTMENTS = [
     { id: 'pipeline', label: 'Revenue pipeline' },
