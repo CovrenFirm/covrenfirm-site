@@ -5,8 +5,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { CheckCircle, Phone, Mail } from 'lucide-react';
-import { OperatorLedger } from './components/OperatorLedger';
-import { ShadowBoard } from './components/ShadowBoard';
 
 type ConsoleScenario = {
   id: 'briefing' | 'qualification' | 'intel';
