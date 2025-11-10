@@ -45,11 +45,9 @@ export default function SovrenAIPage() {
     }
   }, [searchParams]);
 
-  useEffect(() => {
-    if (error) {
-      setError(null);
-    }
-  }, [step]);
+useEffect(() => {
+  setError(null);
+}, [step]);
 
   const selectedTierDetails = useMemo(
     () => SOVREN_PRICING.find((tier) => tier.id === selectedTier) ?? null,
@@ -453,3 +451,4 @@ function labelForControl(control: keyof ControlPrefs) {
       return control;
   }
 }
+
