@@ -18,13 +18,26 @@ function genNonce(): string {
  */
 function cspWithNonce(nonce: string): string {
   const directives = [
+    // base policy
     `default-src 'self'`,
-    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'`,
-    `style-src 'self'`,
-    `img-src 'self' data: blob:`,
+
+    // scripts: allow self + nonced scripts + https script elements (no eval). Avoid strict-dynamic to keep host allowlists.
+    `script-src 'self' 'nonce-${nonce}' https:`,
+    `script-src-elem 'self' 'nonce-${nonce}' https:`,
+    `script-src-attr 'none'`,
+
+    // styles: allow inline for frameworks and small runtime styles
+    `style-src 'self' 'unsafe-inline'`,
+
+    // media
+    `img-src 'self' https: data: blob:`,
     `font-src 'self' data:`,
+
+    // network
     `connect-src 'self' https:`,
-    `frame-ancestors 'none'`,
+
+    // framing and legacy
+    `frame-ancestors 'self'`,
     `object-src 'none'`,
     `base-uri 'self'`,
     `form-action 'self'`,

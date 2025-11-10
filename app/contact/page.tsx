@@ -55,7 +55,9 @@ export default function ContactPage() {
                 />
                 <label htmlFor="sms-consent" className="text-sm text-gray-300 leading-6">
                   I consent to receive SMS messages from Covren Firm about my inquiry. Message and data rates may apply.
-                  Message frequency varies. Reply STOP to opt out, HELP for help. I agree to the{' '}
+                  Message frequency varies. Reply STOP to opt out, HELP for help. You can also manage preferences anytime in{' '}
+                  <a href="https://app.sovren.ai/settings/notifications" className="text-cyan-400 hover:text-cyan-300 underline underline-offset-2" target="_blank" rel="noopener noreferrer">account settings</a>.
+                  I agree to the{' '}
                   <a href="/legal" className="text-cyan-400 hover:text-cyan-300 underline underline-offset-2">Terms</a>
                   {' '}and{' '}
                   <a href="/legal" className="text-cyan-400 hover:text-cyan-300 underline underline-offset-2">Privacy Policy</a>.
