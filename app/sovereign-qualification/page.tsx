@@ -161,18 +161,3 @@ export default function SovrenAIPage() {
   );
 }
 
-export const metadata = {
-  title: 'Sovereign Qualification — Covren Firm',
-  description: 'Complete your qualification for Sovren AI. Exclusive access; outcomes only.',
-  openGraph: {
-    title: 'Sovereign Qualification — Covren Firm',
-    description: 'Complete your qualification for Sovren AI. Exclusive access; outcomes only.',
-    url: 'https://covrenfirm.com/sovereign-qualification',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Sovereign Qualification — Covren Firm',
-    description: 'Complete your qualification for Sovren AI. Exclusive access; outcomes only.',
-  },
-} as const;

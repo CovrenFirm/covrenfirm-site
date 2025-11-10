@@ -280,22 +280,6 @@ export default function Home() {
   );
 }
 
-export const metadata = {
-  title: 'Covren Firm — Sovereign AI that executes',
-  description: 'We build AI operators that erase drag and multiply cashflow. Proof-as-UI. Outcomes only.',
-  openGraph: {
-    title: 'Covren Firm — Sovereign AI that executes',
-    description: 'We build AI operators that erase drag and multiply cashflow. Proof-as-UI. Outcomes only.',
-    url: 'https://covrenfirm.com/',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Covren Firm — Sovereign AI that executes',
-    description: 'We build AI operators that erase drag and multiply cashflow. Proof-as-UI. Outcomes only.',
-  },
-} as const;
-
 function AdaptiveNarrative() {
   const [depth, setDepth] = useState(0);
   useEffect(() => {
