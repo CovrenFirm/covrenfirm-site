@@ -561,23 +561,12 @@ export default function AboutPage() {
           )}
         </AnimatePresence>
 
-        {/* Live Cost Awareness */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="fixed bottom-8 right-8 bg-red-900/90 backdrop-blur-xl border border-red-500 rounded-xl p-6 max-w-sm"
-        >
-          <DollarSign className="w-6 h-6 text-red-400 mb-2" />
-          <p className="text-sm text-red-300 mb-1">
-            As you read this, API costs accumulate:
+        {/* Subtle cost awareness (inline, unobtrusive) */}
+        <div className="mx-auto max-w-3xl">
+          <p className="mt-6 text-xs text-zinc-500 text-center">
+            As you read, typical API spend trends upward. Current example meter: ${currentCost.toFixed(2)}
           </p>
-          <p className="text-3xl font-bold text-white">
-            ${currentCost.toFixed(2)}
-          </p>
-          <p className="text-xs text-gray-400 mt-2">
-            Money spent on permission, not ownership
-          </p>
-        </motion.div>
+        </div>
       </div>
     </ConsciousPage>
   );

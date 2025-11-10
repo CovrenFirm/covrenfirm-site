@@ -6,8 +6,11 @@ import { useRouter } from 'next/navigation';
 import { CheckCircle, Phone, Mail } from 'lucide-react';
 import { OperatorLedger } from './components/OperatorLedger';
 import { ShadowBoard } from './components/ShadowBoard';
+<<<<<<< HEAD
 import { SovereigntyGauge } from './components/SovereigntyGauge';
 import { GlitchCipher } from './components/GlitchCipher';
+=======
+>>>>>>> b4e8430b (Fix blog 404/SSR; footer Links+padding; About inline cost note; Demos modal+CTAs; homepage gradients; add pricing constants)
 
 export default function Home() {
   const bootLines = useMemo(
@@ -86,7 +89,13 @@ export default function Home() {
             ))}
           </div>
           <h1 className="mt-6 text-4xl md:text-6xl font-extrabold tracking-tight">
+<<<<<<< HEAD
             Sovereign AI that <GlitchCipher>executes</GlitchCipher>. Not negotiates.
+=======
+            <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
+              Sovereign AI that executes. Not negotiates.
+            </span>
+>>>>>>> b4e8430b (Fix blog 404/SSR; footer Links+padding; About inline cost note; Demos modal+CTAs; homepage gradients; add pricing constants)
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-zinc-300">
             We turn chaos into throughput—building AI operators that erase drag and multiply cashflow. Absolute control.
@@ -172,7 +181,11 @@ export default function Home() {
 
       {/* QUICK LINKS */}
       <section className="border-t border-zinc-900 bg-zinc-950">
+<<<<<<< HEAD
         <div className="mx-auto max-w-6xl px-6 py-10 grid gap-4 md:grid-cols-4">
+=======
+        <div className="mx-auto max-w-6xl px-6 py-16 grid gap-6 md:grid-cols-4">
+>>>>>>> b4e8430b (Fix blog 404/SSR; footer Links+padding; About inline cost note; Demos modal+CTAs; homepage gradients; add pricing constants)
           {[
             { label: 'SOVREN AI', href: '/services/sovren-ai' },
             { label: 'Services', href: '/services' },
@@ -182,7 +195,11 @@ export default function Home() {
             <Link
               key={l.href}
               href={l.href}
+<<<<<<< HEAD
               className="rounded-xl border border-zinc-800 bg-black p-4 text-center font-semibold hover:bg-zinc-900 transition"
+=======
+              className="rounded-2xl border border-zinc-800 bg-black p-6 text-center font-semibold hover:bg-zinc-950 transition"
+>>>>>>> b4e8430b (Fix blog 404/SSR; footer Links+padding; About inline cost note; Demos modal+CTAs; homepage gradients; add pricing constants)
             >
               {l.label}
             </Link>
@@ -196,21 +213,33 @@ export default function Home() {
           <div className="flex items-start gap-3">
             <CheckCircle className="w-6 h-6 text-cyan-400 mt-1" />
             <div>
-              <h3 className="text-xl font-bold">Zero-Dependency Architecture</h3>
+              <h3 className="text-xl font-bold">
+                <span className="bg-gradient-to-r from-cyan-400 to-purple-600 bg-clip-text text-transparent">
+                  Zero-Dependency Architecture
+                </span>
+              </h3>
               <p className="mt-2 text-zinc-400">Own the stack. Own the upside. No rented intelligence.</p>
             </div>
           </div>
           <div className="flex items-start gap-3">
             <CheckCircle className="w-6 h-6 text-cyan-400 mt-1" />
             <div>
-              <h3 className="text-xl font-bold">Execution &gt; Opinions</h3>
+              <h3 className="text-xl font-bold">
+                <span className="bg-gradient-to-r from-cyan-400 to-purple-600 bg-clip-text text-transparent">
+                  Execution &gt; Opinions
+                </span>
+              </h3>
               <p className="mt-2 text-zinc-400">Operators that do the work—calls, emails, workflows—without stalling.</p>
             </div>
           </div>
           <div className="flex items-start gap-3">
             <CheckCircle className="w-6 h-6 text-cyan-400 mt-1" />
             <div>
-              <h3 className="text-xl font-bold">Measured by Throughput</h3>
+              <h3 className="text-xl font-bold">
+                <span className="bg-gradient-to-r from-cyan-400 to-purple-600 bg-clip-text text-transparent">
+                  Measured by Throughput
+                </span>
+              </h3>
               <p className="mt-2 text-zinc-400">We track cycle time and cashflow—not vanity metrics.</p>
             </div>
           </div>
@@ -224,7 +253,15 @@ export default function Home() {
 
       {/* DEMO ANCHOR */}
       <section id="demo" className="mx-auto max-w-6xl px-6 py-24">
+<<<<<<< HEAD
         <h2 className="text-3xl md:text-4xl font-bold">Proof-as-UI</h2>
+=======
+        <h2 className="text-3xl md:text-4xl font-bold">
+          <span className="bg-gradient-to-r from-cyan-400 to-purple-600 bg-clip-text text-transparent">
+            Proof-as-UI
+          </span>
+        </h2>
+>>>>>>> b4e8430b (Fix blog 404/SSR; footer Links+padding; About inline cost note; Demos modal+CTAs; homepage gradients; add pricing constants)
         <p className="mt-4 max-w-2xl text-zinc-300">A live-feel snapshot of sealed actions and executive coverage. Outcomes only.</p>
         <div className="mt-8 grid gap-6 md:grid-cols-2">
           <ShadowBoard />

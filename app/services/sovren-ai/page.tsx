@@ -17,7 +17,10 @@ import {
   TrendingUp,
 } from 'lucide-react';
 import { SOVREN_PRICING, POWER_SLOT_ADDON } from '@/lib/pricing';
+<<<<<<< HEAD
 import { PricingExplorer } from '@/app/components/PricingExplorer';
+=======
+>>>>>>> b4e8430b (Fix blog 404/SSR; footer Links+padding; About inline cost note; Demos modal+CTAs; homepage gradients; add pricing constants)
 
 export default function SovrenAIPage() {
   return (

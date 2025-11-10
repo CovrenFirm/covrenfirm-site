@@ -1,11 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ConsciousPage } from '../../consciousness-engine';
 import { ArrowRight, Brain, Calendar, MessageSquare, Mic, Play, Shield, Zap } from 'lucide-react';
 
 export default function DemoPage() {
   const [selectedDemo, setSelectedDemo] = useState<string | null>(null);
+  const [activeDemo, setActiveDemo] = useState<string | null>(null);
+  const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -120,6 +122,29 @@ export default function DemoPage() {
                         <span className="text-gray-300">{highlight}</span>
                       </div>
                     ))}
+                  </div>
+
+                  <div className="mt-6 flex flex-wrap gap-3">
+                    <button
+                      type="button"
+                      className="inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-black font-semibold hover:opacity-90 transition"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setActiveDemo(demo.id);
+                        setShowModal(true);
+                      }}
+                      aria-haspopup="dialog"
+                      aria-controls="demo-modal"
+                    >
+                      Run Demo
+                    </button>
+                    <a
+                      href={`/contact?demo=${encodeURIComponent(demo.id)}`}
+                      className="inline-flex items-center gap-2 rounded-lg border border-gray-700 px-4 py-2 font-semibold hover:bg-zinc-900 transition"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      Book Demo
+                    </a>
                   </div>
                 </div>
               </div>
@@ -244,7 +269,111 @@ export default function DemoPage() {
             While you read this, your competitors are exploring AI solutions. Don't let them get there first.
           </p>
         </section>
+
+        {/* Modal Preview */}
+        {showModal && activeDemo && (
+          <DemoModal
+            id="demo-modal"
+            demoId={activeDemo}
+            onClose={() => setShowModal(false)}
+          />
+        )}
       </div>
     </ConsciousPage>
+  );
+}
+
+function DemoModal({ id, demoId, onClose }: { id: string; demoId: string; onClose: () => void }) {
+  const dialogRef = useRef<HTMLDivElement | null>(null);
+  const [input, setInput] = useState('');
+  const [output, setOutput] = useState<string>('');
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [onClose]);
+
+  useEffect(() => {
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+    dialogRef.current?.focus();
+    return () => previouslyFocused?.focus();
+  }, []);
+
+  const handleRun = () => {
+    // Safe, mocked outputs only. No vendor/infra disclosures.
+    const canned =
+      demoId === 'business'
+        ? 'Identified 3 throughput opportunities and 2 cost sinks. Recommend automating approvals and sealing outcomes.'
+        : demoId === 'voice'
+        ? 'Simulated voice turn: “Understood. Scheduling follow-up and confirming guardrails.”'
+        : demoId === 'consciousness'
+        ? 'Prediction: evaluating fit. Confidence: 0.88. Suggest next: qualification.'
+        : 'Outlined a 3-step sovereign plan tailored to your context.';
+    setOutput(canned);
+  };
+
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      id={id}
+      ref={dialogRef}
+      tabIndex={-1}
+      className="fixed inset-0 z-[1000] flex items-center justify-center p-4"
+    >
+      <div className="absolute inset-0 bg-black/70" onClick={onClose} />
+      <div className="relative w-full max-w-xl rounded-2xl border border-zinc-800 bg-black p-6 shadow-xl">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-xl font-bold">Live Preview</h3>
+          <button
+            onClick={onClose}
+            className="rounded-md border border-zinc-700 px-3 py-1.5 text-sm hover:bg-zinc-900"
+            aria-label="Close modal"
+          >
+            Close
+          </button>
+        </div>
+
+        <div className="space-y-3">
+          <label className="block text-sm text-zinc-400">Your input</label>
+          <input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Describe a safe scenario (no sensitive data)"
+            className="w-full rounded-lg border border-zinc-800 bg-zinc-950 px-3 py-2 outline-none focus:border-cyan-600"
+          />
+          <button
+            onClick={handleRun}
+            className="mt-2 inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-black font-semibold hover:opacity-90 transition"
+          >
+            Run
+          </button>
+        </div>
+
+        <div className="mt-5 rounded-lg border border-zinc-800 bg-zinc-950 p-4 min-h-[96px]">
+          <p className="text-sm text-zinc-300 whitespace-pre-wrap">
+            {output || 'Output will appear here. Outcome-only language; no vendors or metrics.'}
+          </p>
+        </div>
+
+        <div className="mt-5 flex gap-3 justify-end">
+          <a
+            href={`/contact?demo=${encodeURIComponent(demoId)}`}
+            className="rounded-lg border border-zinc-700 px-4 py-2 font-semibold hover:bg-zinc-900 transition"
+          >
+            Book Demo
+          </a>
+          <a
+            href={`/sovereign-qualification?source=demos&demo=${encodeURIComponent(demoId)}`}
+            className="rounded-lg bg-white px-4 py-2 text-black font-semibold hover:opacity-90 transition"
+          >
+            Qualify
+          </a>
+        </div>
+      </div>
+    </div>
   );
 }

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 export type PricingTier = {
   id: 'solo' | 'professional' | 'business';
   name: string;
@@ -70,6 +71,60 @@ export const POWER_SLOT_ADDON: AddOn = {
     'Typical Buyers: BUSINESS-tier subscribers requiring specialized roles or geographically distributed executive coverage',
   ],
   cta: { label: 'Discuss Power Slots', href: '/contact' },
+=======
+export type SovrenTier = {
+  id: 'solo' | 'professional' | 'business';
+  name: string;
+  summaryPoints: string[];
+  cta: { label: string; href: string };
+  badge?: string;
+  highlight?: boolean;
+};
+
+export const SOVREN_PRICING: SovrenTier[] = [
+  {
+    id: 'solo',
+    name: 'Solo',
+    summaryPoints: [
+      'One primary operator',
+      'Guardrails and approvals',
+      'Proof-as-UI visibility',
+    ],
+    cta: { label: 'Select Solo', href: '/sovereign-qualification?tier=solo' },
+  },
+  {
+    id: 'professional',
+    name: 'Professional',
+    summaryPoints: [
+      'Multiple operators',
+      'Expanded execution coverage',
+      'Throughput reporting',
+    ],
+    badge: 'Most Popular',
+    highlight: true,
+    cta: { label: 'Select Professional', href: '/sovereign-qualification?tier=professional' },
+  },
+  {
+    id: 'business',
+    name: 'Business',
+    summaryPoints: [
+      'C-suite operator coverage',
+      'Custom approvals and policies',
+      'Executive-grade observability',
+    ],
+    cta: { label: 'Select Business', href: '/sovereign-qualification?tier=business' },
+  },
+];
+
+export const POWER_SLOT_ADDON = {
+  name: 'Power Slots',
+  descriptionPoints: [
+    'Burst capacity for high-demand periods',
+    'Prioritized execution windows',
+    'No vendor disclosures; outcomes only',
+  ],
+  cta: { label: 'Request Power Slots', href: '/sovereign-qualification?source=power-slots' },
+>>>>>>> b4e8430b (Fix blog 404/SSR; footer Links+padding; About inline cost note; Demos modal+CTAs; homepage gradients; add pricing constants)
 };
 
 
