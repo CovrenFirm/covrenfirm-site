@@ -27,7 +27,7 @@ export const SOVREN_PRICING: SovrenTier[] = [
       'Throughput reporting',
     ],
     badge: 'Most Popular',
-    highlight: True,
+    highlight: true,
     cta: { label: 'Select Professional', href: '/sovereign-qualification?tier=professional' },
   },
   {
