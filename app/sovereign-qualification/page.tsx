@@ -417,7 +417,8 @@ function labelForControl(control: keyof ControlPrefs): string {
       return 'External approvals';
     case 'realtimeSignals':
       return 'Real-time telemetry';
-    default:\n      return String(control);
+    default:
+      return String(control);
   }
 }
 
