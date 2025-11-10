@@ -62,6 +62,16 @@ export default function SovrenAIPage() {
     } catch {}
   }, []);
 
+  // When a tier is selected (either via button or query param), ensure Acceptance is visible
+  useEffect(() => {
+    if (selectedTier) {
+      const el = document.getElementById('acceptance');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  }, [selectedTier]);
+
   return (
     <ConsciousPage title="Sovereign Qualification">
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
@@ -113,8 +123,12 @@ export default function SovrenAIPage() {
                       // replace URL query for shareability without full navigation
                       const url = new URL(window.location.href);
                       url.searchParams.set('tier', tier.id);
-                      router.replace(url.pathname + url.search);
-                      window.scrollTo({ top: document.getElementById('acceptance')?.offsetTop ?? 0, behavior: 'smooth' });
+                      url.hash = 'acceptance';
+                      router.replace(url.pathname + url.search + url.hash);
+                      const el = document.getElementById('acceptance');
+                      if (el) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      }
                     }}
                     className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-colors inline-block text-center"
                   >
