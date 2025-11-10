@@ -1,73 +1,12 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { ConsciousPage } from '@/app/consciousness-engine';
+import { SOVREN_PRICING, POWER_SLOT_ADDON } from '@/lib/pricing';
 
 export default function SovrenAIPage() {
-  const [billingPeriod, _setBillingPeriod] = useState<'monthly' | 'yearly'>('monthly');
-  const [revealedCapabilities, setRevealedCapabilities] = useState(0);
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setRevealedCapabilities((prev) => (prev < 6 ? prev + 1 : prev));
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, [revealedCapabilities]);
-
-  const _calculatePrice = (monthlyPrice: number) => {
-    if (billingPeriod === 'yearly') {
-      return Math.floor(monthlyPrice * 12 * 0.9);
-    }
-    return monthlyPrice;
-  };
-
-  const pricingTiers = [
-    {
-      name: 'Sovren Proof',
-      price: 497,
-      yearlyPrice: 5368,
-      tagline: 'Begin your sovereignty journey',
-      description: 'Everything you need to escape dependency',
-      features: [
-        { text: 'Full sovereignty capabilities', included: true },
-        { text: 'Infinite scaling potential', included: true },
-        { text: 'Zero usage limits', included: true },
-        { text: 'Community support access', included: true },
-        { text: 'Implementation guidance', included: true },
-        { text: 'Direct founder access', included: false },
-        { text: 'Priority support', included: false },
-        { text: 'Personal onboarding', included: false },
-        { text: 'Strategic advisory calls', included: false },
-      ],
-      cta: 'APPLY FOR PROOF',
-      ctaLink: '/services/sovren-ai/sovereign-qualification?tier=proof',
-      popular: false,
-      availability: null,
-    },
-    {
-      name: 'Sovren Proof+',
-      price: 797,
-      yearlyPrice: 8607,
-      tagline: 'Direct access to the architects',
-      description: 'Only 7 seats remaining',
-      features: [
-        { text: 'Everything in Proof', included: true },
-        { text: 'Priority implementation', included: true },
-        { text: 'Direct founder access', included: true },
-        { text: 'Personal onboarding', included: true },
-        { text: 'Strategic advisory calls', included: true },
-        { text: 'Early feature access', included: true },
-        { text: 'Custom optimization', included: true },
-        { text: 'Architecture consultation', included: true },
-      ],
-      cta: 'APPLY FOR PROOF+',
-      ctaLink: '/services/sovren-ai/sovereign-qualification?tier=proof-plus',
-      popular: true,
-      availability: 7,
-    },
-  ];
 
   return (
     <ConsciousPage title="Sovereign Qualification">
@@ -78,26 +17,71 @@ export default function SovrenAIPage() {
             <p className="text-xl text-slate-300 max-w-3xl mx-auto">Complete your qualification for Sovren AI access</p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-            {pricingTiers.map((tier) => (
-              <div key={tier.name} className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-slate-700">
-                <h3 className="text-2xl font-bold text-white mb-2">{tier.name}</h3>
-                <p className="text-slate-300 mb-4">{tier.tagline}</p>
-                <div className="text-3xl font-bold text-white mb-6">
-                  ${billingPeriod === 'yearly' ? tier.yearlyPrice : tier.price}
-                  <span className="text-lg text-slate-400">/{billingPeriod === 'yearly' ? 'year' : 'month'}</span>
+          <div className="grid gap-8 max-w-6xl mx-auto md:grid-cols-3">
+            {SOVREN_PRICING.map((tier) => (
+              <div
+                key={tier.id}
+                className={[
+                  'rounded-2xl p-8 border backdrop-blur-sm',
+                  tier.highlight ? 'bg-purple-900/30 border-purple-500/40' : 'bg-slate-800/50 border-slate-700',
+                ].join(' ')}
+              >
+                <div className="flex items-center gap-3 mb-2">
+                  <h3 className="text-2xl font-bold text-white">{tier.name}</h3>
+                  {tier.badge ? (
+                    <span className="text-[10px] font-semibold px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                      {tier.badge}
+                    </span>
+                  ) : null}
                 </div>
-                <Link
-                  href={tier.ctaLink}
-                  className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-colors inline-block text-center"
-                >
-                  {tier.cta}
-                </Link>
+                <ul className="mt-4 space-y-2 text-slate-300">
+                  {tier.summaryPoints.map((p, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <span className="mt-1 h-1.5 w-1.5 rounded-full bg-cyan-400"></span>
+                      <span>{p}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-6">
+                  <Link
+                    href={tier.cta.href}
+                    className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-colors inline-block text-center"
+                  >
+                    {tier.cta.label}
+                  </Link>
+                </div>
               </div>
             ))}
           </div>
 
-          {/* Acceptance Ritual (Progressive Disclosure) */}
+          <div className="max-w-6xl mx-auto mt-10">
+            <div className="rounded-2xl border border-slate-700 bg-slate-900/40 p-6">
+              <h3 className="text-xl font-bold text-white mb-3">Add-On: Power Slots</h3>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <p className="text-slate-300 font-semibold">{POWER_SLOT_ADDON.name}</p>
+                  <ul className="mt-3 space-y-2 text-slate-300">
+                    {POWER_SLOT_ADDON.descriptionPoints.map((p, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <span className="mt-1 h-1.5 w-1.5 rounded-full bg-cyan-400"></span>
+                        <span>{p}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="flex md:justify-end items-start">
+                  <Link
+                    href={POWER_SLOT_ADDON.cta.href}
+                    className="h-10 inline-flex items-center justify-center rounded-lg bg-white text-black font-semibold px-5 hover:opacity-90 transition"
+                  >
+                    {POWER_SLOT_ADDON.cta.label}
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Acceptance Protocol */}
           <div className="max-w-3xl mx-auto mt-16 rounded-2xl border border-slate-700 bg-slate-900/40 p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-2xl font-bold text-white">Acceptance Protocol</h2>
@@ -105,10 +89,7 @@ export default function SovrenAIPage() {
                 {[1, 2, 3, 4].map((s) => (
                   <span
                     key={s}
-                    className={[
-                      'h-2 w-8 rounded-full',
-                      step >= (s as 1 | 2 | 3 | 4) ? 'bg-cyan-500' : 'bg-slate-700',
-                    ].join(' ')}
+                    className={['h-2 w-8 rounded-full', step >= (s as 1 | 2 | 3 | 4) ? 'bg-cyan-500' : 'bg-slate-700'].join(' ')}
                   />
                 ))}
               </div>

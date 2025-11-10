@@ -1,0 +1,30 @@
+
+# Dependencies
+node_modules/
+
+# Next.js
+.next/
+out/
+.turbo/
+.vercel/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Editor/OS
+.DS_Store
+.vscode/
+*.swp
+
+# Coverage and build artifacts
+coverage/
+dist/
+

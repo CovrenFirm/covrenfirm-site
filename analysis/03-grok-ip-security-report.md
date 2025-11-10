@@ -9,17 +9,18 @@ Execution Time: ~30 minutes equivalent analysis
 
 | File | Line (approx) | Content (excerpt) | Risk Level | Recommendation |
 |------|---------------|-------------------|------------|----------------|
-| app/services/sovren-ai/page.tsx | ~159 | "GPU Allocation: Dedicated MIG slice or cpuset guarantee" | CRITICAL | REMOVE; replace with "Dedicated performance allocation" |
-| app/services/sovren-ai/page.tsx | ~182 | "All AI processing self-hosted; zero API dependencies except Stripe + Skyetel" | CRITICAL | REMOVE vendor names and deployment model; replace with "Complete data sovereignty; strategic third‑party services for non‑AI functions" |
-| app/services/sovren-ai/page.tsx | ~194–195 | "Sub‑200ms Duplex... MOS ≥4.85" | HIGH | Replace with "real‑time voice quality" (no exact metrics) |
-| app/services/custom-ai-development/page.tsx | ~36 | "On‑premise, cloud, or hybrid" | HIGH | Replace with "Sovereign deployment model" |
-| app/page.tsx | ~41 | "Own the stack" | MEDIUM | Safe if outcome‑only; avoid infra implications elsewhere |
-| app/about/page.tsx | ~326 | "someone else's servers" | MEDIUM | Reword to outcomes; avoid deployment hints |
+| app/services/custom-ai-development/page.tsx | 34–38 | Heading: "Edge Deployment" | HIGH | REPLACED with "Sovereign Execution" (done) |
+| app/case-studies/page.tsx | 19–21 | "owning your AI infrastructure" | HIGH | REPLACED with sovereignty wording (done) |
+| app/case-studies/page.tsx | 114–116 | "When you own the infrastructure" | HIGH | REPLACED with "execution surface" (done) |
+| app/case-studies/page.tsx | 156–159 | "owning your servers… renting cloud space" | CRITICAL | REPLACED with outcomes wording (done) |
+| app/case-studies/page.tsx | 198–201 | "Your data never leaves your infrastructure" | HIGH | REPLACED with "Complete data sovereignty" (done) |
+| next.config.ts | 6 | Comment mentions vendor ("Render") | MEDIUM | REPLACED with vendor‑agnostic comment (done) |
+| app/page.tsx | ~200–205 | "Own the stack" | MEDIUM | Allowed as outcomes framing; monitor elsewhere |
 
 Notes: Additional references to vendors, infra, or precise performance should be treated as CRITICAL by default. The blog’s anti‑vendor stance is acceptable; ensure it does not reveal our stack or dependencies.
 
 ### Technical Architecture Exposure
-No direct code reveals of stack/infrastructure. Risks are in copy only (above table). CSP configuration exists in both middleware and config; see Security section.
+No direct code reveals of stack/infrastructure. Risks were in copy only (see table) and are now remediated. A vendor reference in `next.config.ts` comment was removed. CSP/security headers present; see Security section.
 
 ### Proprietary Methodology Leakage
 None detected. Avoid "how it's built" narratives in future posts/pages.

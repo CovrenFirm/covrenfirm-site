@@ -31,7 +31,7 @@ export default function CustomAIDevelopmentPage() {
 
           <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl p-8 border border-blue-500/30">
             <Zap className="w-12 h-12 text-blue-400 mb-4" />
-            <h3 className="text-2xl font-bold text-white mb-3">Edge Deployment</h3>
+            <h3 className="text-2xl font-bold text-white mb-3">Sovereign Execution</h3>
             <p className="text-gray-300">
               Sovereign deployment model. Your AI, your policies, your outcomes.
             </p>

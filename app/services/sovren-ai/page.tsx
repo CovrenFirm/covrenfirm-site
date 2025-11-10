@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
 import { ConsciousPage } from '@/app/consciousness-engine';
 import {
   Brain,
@@ -17,6 +16,8 @@ import {
   Volume2,
   TrendingUp,
 } from 'lucide-react';
+import { SOVREN_PRICING, POWER_SLOT_ADDON } from '@/lib/pricing';
+import { PricingExplorer } from '@/app/components/PricingExplorer';
 
 export default function SovrenAIPage() {
   return (
@@ -126,56 +127,23 @@ export default function SovrenAIPage() {
         <div className="mx-auto max-w-6xl px-6 py-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-8">Sovren AI Subscription Tiers — Production Pricing</h2>
           <div className="grid gap-8 md:grid-cols-3">
-            <Package
-              name="SOLO — $199/month"
-              points={[
-                'Executive Count: 2–3 AI executives',
-                'Target Market: Solopreneurs, micro-businesses, side hustles',
-                'Key Value: AI Receptionist + 1–2 C‑Suite roles (typically CFO, CMO, or COO based on business need)',
-                'Use Case: Single‑founder operations needing professional delegation without hiring humans',
-              ]}
-              cta={{
-                label: 'Apply for SOLO',
-                href: '/services/sovren-ai/sovereign-qualification?tier=solo',
-              }}
-            />
-
-            <Package
-              name="PROFESSIONAL — $349/month"
-              badge="Best Value"
-              points={[
-                'Executive Count: 5–6 AI executives',
-                'Target Market: Small businesses, established consultancies, agencies',
-                'Key Value: AI Receptionist + full core C‑Suite (CFO, CMO, COO, CTO, CLO)',
-                'Use Case: Growth-stage companies requiring multi-functional executive support for internal strategy + external customer/vendor interactions',
-              ]}
-              highlight
-              cta={{
-                label: 'Apply for PROFESSIONAL',
-                href: '/services/sovren-ai/sovereign-qualification?tier=professional',
-              }}
-            />
-
-            <Package
-              name="BUSINESS — $1,199/month"
-              points={[
-                'Executive Count: 9–10 AI executives',
-                'Target Market: SMBs with complex ops, multi-department teams',
-                'Key Value: AI Receptionist + extended Shadow Board (core C‑Suite + CHRO, CSO, CIO, CPO)',
-                'Use Case: Mature businesses needing full executive bench strength for both strategic planning and operational execution',
-              ]}
-              cta={{
-                label: 'Apply for BUSINESS',
-                href: '/services/sovren-ai/sovereign-qualification?tier=business',
-              }}
-            />
+            {SOVREN_PRICING.map((tier) => (
+              <Package
+                key={tier.id}
+                name={tier.name}
+                points={tier.summaryPoints}
+                cta={tier.cta}
+                badge={tier.badge ?? undefined}
+                highlight={Boolean(tier.highlight)}
+              />
+            ))}
           </div>
         </div>
       </section>
 
       {/* PRICING THROUGHPUT DELTAS (Interactive) */}
       <section className="mx-auto max-w-6xl px-6 py-16">
-        <InteractiveDeltas />
+        <PricingExplorer />
       </section>
 
       {/* ADD-ON: POWER SLOTS */}
@@ -183,15 +151,7 @@ export default function SovrenAIPage() {
         <div className="mx-auto max-w-6xl px-6 py-16">
           <h3 className="text-2xl font-bold mb-6">Add-On: Power Slots</h3>
           <div className="grid md:grid-cols-1">
-            <Package
-              name="Power Slot — $990/month per slot"
-              points={[
-                'Purpose: Add one additional AI executive beyond tier limits',
-                'Dedicated performance allocation for sustained workload',
-                'Typical Buyers: BUSINESS-tier subscribers requiring specialized roles (e.g., Chief Sustainability Officer, Chief Data Officer, VP of Product) or geographically distributed executive coverage',
-              ]}
-              cta={{ label: 'Discuss Power Slots', href: '/contact' }}
-            />
+            <Package name={POWER_SLOT_ADDON.name} points={POWER_SLOT_ADDON.descriptionPoints} cta={POWER_SLOT_ADDON.cta} />
           </div>
         </div>
       </section>
@@ -351,71 +311,4 @@ function FAQ({ q, a }: { q: string; a: string }) {
   );
 }
 
-function InteractiveDeltas() {
-  const [horizon, setHorizon] = useState<'day1' | 'week1' | 'month1'>('day1');
-  const variants: Record<typeof horizon, { title: string; items: string[] }> = {
-    day1: {
-      title: 'Day 1 changes',
-      items: [
-        'Operator accounts provisioned and visible in status board',
-        'Approval workflow live for one core process',
-        'Proof-as-UI ledger embedded in your workspace',
-      ],
-    },
-    week1: {
-      title: 'Week 1 changes',
-      items: [
-        'Two primary workflows automated with guardrails',
-        'Executive handoffs reduce cycle time across one department',
-        'Owner-visible observability for all executive actions',
-      ],
-    },
-    month1: {
-      title: 'Month 1 changes',
-      items: [
-        'Expanded executive coverage across roles',
-        'Throughput improvements compound across processes',
-        'Leadership rituals established around sealed outcomes',
-      ],
-    },
-  };
 
-  const current = variants[horizon];
-
-  return (
-    <div className="rounded-2xl border border-zinc-800 bg-black p-6">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-2xl font-bold">Throughput Deltas</h3>
-        <div className="flex gap-2">
-          <button
-            onClick={() => setHorizon('day1')}
-            className={['px-3 py-1 rounded-lg text-sm border', horizon === 'day1' ? 'border-cyan-500 text-cyan-300' : 'border-zinc-700 text-zinc-300'].join(' ')}
-          >
-            Day 1
-          </button>
-          <button
-            onClick={() => setHorizon('week1')}
-            className={['px-3 py-1 rounded-lg text-sm border', horizon === 'week1' ? 'border-cyan-500 text-cyan-300' : 'border-zinc-700 text-zinc-300'].join(' ')}
-          >
-            Week 1
-          </button>
-          <button
-            onClick={() => setHorizon('month1')}
-            className={['px-3 py-1 rounded-lg text-sm border', horizon === 'month1' ? 'border-cyan-500 text-cyan-300' : 'border-zinc-700 text-zinc-300'].join(' ')}
-          >
-            Month 1
-          </button>
-        </div>
-      </div>
-      <p className="text-zinc-400 mb-4">{current.title}</p>
-      <ul className="space-y-2 text-zinc-300">
-        {current.items.map((it, i) => (
-          <li key={i} className="flex items-start gap-2">
-            <Check className="w-4 h-4 mt-1 text-cyan-400" />
-            <span>{it}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}

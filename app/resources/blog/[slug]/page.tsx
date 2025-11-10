@@ -1,6 +1,7 @@
 // NO "use client" here — this is a Server Component
 
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import { ConsciousPage } from '@/app/consciousness-engine';
 import { ArrowLeft, Calendar, Clock, Share2 } from 'lucide-react';
 
@@ -80,88 +81,84 @@ export default async function BlogPostPage({
 }: {
   params: Promise<RouteParams>;
 }) {
-  const { slug } = await params;
+  try {
+    const { slug } = await params;
 
-  const post = POSTS[slug];
-  if (!post) {
-    // Simple not-found view without importing next/navigation
+    const post = POSTS[slug];
+    if (!post) {
+      notFound();
+    }
+
     return (
-      <ConsciousPage title="Not Found">
-        <div className="max-w-3xl mx-auto px-6 py-24 text-center">
-          <h1 className="text-3xl font-bold text-white mb-3">Article not found</h1>
-          <p className="text-zinc-400 mb-6">The article you’re looking for doesn’t exist or was moved.</p>
-          <Link href="/resources/blog" className="underline">
-            Back to insights
-          </Link>
-        </div>
+      <ConsciousPage title={post.title}>
+        <article className="max-w-3xl mx-auto px-6 py-16">
+          {/* Top bar */}
+          <div className="mb-6 flex items-center justify-between">
+            <Link href="/resources/blog" className="inline-flex items-center gap-2 text-zinc-400 hover:text-zinc-200">
+              <ArrowLeft className="w-4 h-4" />
+              Back
+            </Link>
+            <form
+              action={async () => {
+                'use server';
+                // server no-op; we don’t expose clipboard here
+              }}
+            >
+              <button className="inline-flex items-center gap-2 text-zinc-400 hover:text-zinc-200" title="Share" type="button"
+                onClick={() => {
+                  const url = typeof window !== 'undefined' ? window.location.href : '';
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  const nav: any = typeof window !== 'undefined' ? (window as unknown as { navigator?: Navigator }).navigator : undefined;
+                  if (nav?.clipboard && url) nav.clipboard.writeText(url);
+                }}>
+                <Share2 className="w-4 h-4" />
+                Share
+              </button>
+            </form>
+          </div>
+
+          {/* Header */}
+          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white">{post.title}</h1>
+
+          <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-zinc-400">
+            <span className="inline-flex items-center gap-1">
+              <Calendar className="w-4 h-4" />
+              {post.date}
+            </span>
+            <span className="inline-flex items-center gap-1">
+              <Clock className="w-4 h-4" />
+              {post.readTime}
+            </span>
+            <span className="px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-300 text-xs">{post.category}</span>
+          </div>
+
+          {/* Body */}
+          <div className="prose prose-invert prose-zinc mt-10">
+            {post.paragraphs.map((p, i) => (
+              <p key={i} className="text-zinc-200 leading-7">
+                {p}
+              </p>
+            ))}
+          </div>
+
+          {/* Footer CTA */}
+          <div className="mt-12 border-t border-zinc-800 pt-8">
+            <h3 className="text-xl font-semibold text-white mb-3">Want the edge, not the hype?</h3>
+            <p className="text-zinc-300 mb-6">
+              Book the Command Briefing. We’ll map your fastest path to throughput—no vendor theatre, just execution.
+            </p>
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 rounded-2xl bg-white px-6 py-3 text-black font-semibold hover:opacity-90 transition"
+            >
+              Book the Command Briefing
+            </Link>
+          </div>
+        </article>
       </ConsciousPage>
     );
+  } catch {
+    notFound();
   }
-
-  return (
-    <ConsciousPage title={post.title}>
-      <article className="max-w-3xl mx-auto px-6 py-16">
-        {/* Top bar */}
-        <div className="mb-6 flex items-center justify-between">
-          <Link href="/resources/blog" className="inline-flex items-center gap-2 text-zinc-400 hover:text-zinc-200">
-            <ArrowLeft className="w-4 h-4" />
-            Back
-          </Link>
-          <form
-            action={async () => {
-              'use server';
-              // server no-op; we don’t expose clipboard here
-            }}
-          >
-            <button className="inline-flex items-center gap-2 text-zinc-400 hover:text-zinc-200" title="Share" type="button"
-              onClick={() => {
-                const url = typeof window !== 'undefined' ? window.location.href : '';
-                if (navigator?.clipboard && url) navigator.clipboard.writeText(url);
-              }}>
-              <Share2 className="w-4 h-4" />
-              Share
-            </button>
-          </form>
-        </div>
-
-        {/* Header */}
-        <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white">{post.title}</h1>
-
-        <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-zinc-400">
-          <span className="inline-flex items-center gap-1">
-            <Calendar className="w-4 h-4" />
-            {post.date}
-          </span>
-          <span className="inline-flex items-center gap-1">
-            <Clock className="w-4 h-4" />
-            {post.readTime}
-          </span>
-          <span className="px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-300 text-xs">{post.category}</span>
-        </div>
-
-        {/* Body */}
-        <div className="prose prose-invert prose-zinc mt-10">
-          {post.paragraphs.map((p, i) => (
-            <p key={i} className="text-zinc-200 leading-7">
-              {p}
-            </p>
-          ))}
-        </div>
-
-        {/* Footer CTA */}
-        <div className="mt-12 border-t border-zinc-800 pt-8">
-          <h3 className="text-xl font-semibold text-white mb-3">Want the edge, not the hype?</h3>
-          <p className="text-zinc-300 mb-6">
-            Book the Command Briefing. We’ll map your fastest path to throughput—no vendor theatre, just execution.
-          </p>
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-2 rounded-2xl bg-white px-6 py-3 text-black font-semibold hover:opacity-90 transition"
-          >
-            Book the Command Briefing
-          </Link>
-        </div>
-      </article>
-    </ConsciousPage>
-  );
 }
+

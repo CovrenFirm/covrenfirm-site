@@ -7,14 +7,14 @@ Session ID: covren-website-analysis
 ## Current State Assessment (1-10 Rating)
 - Layer 1 (Psychological Impact): 6/10
 - Layer 2 (Information Architecture): 7/10
-- Layer 3 (IP Exposure Risk): 4/10 ⚠️
+- Layer 3 (IP Exposure Risk): 8/10
 - Layer 4 (Holy Fuck Factor): 5/10
 - Layer 5 (Conversion Architecture): 6/10
 - Layer 6 (Technical Performance): 8/10
 - Layer 7 (Competitive Position): 6/10
 
 ## Top 5 Critical Issues
-1. Grok Code: IP-sensitive disclosures in `app/services/sovren-ai/page.tsx` (GPU allocation, vendor naming, latency metrics) create competitive intelligence risk.
+1. Grok Code: Public copy drift risk — prior infra/vendor phrasing surfaced in `case-studies` and comments; requires automated IP linter to prevent regressions.
 2. GPT-5-Codex: Conflicting CSP strategies in `next.config.ts` vs `middleware.ts` increase breakage risk and weaken security posture.
 3. GPT-5: The homepage lacks an immediate “live system” proof; emotional intensity fades after hero, reducing sustained engagement.
 4. GPT-5: CTAs are not persistent and lack urgency/scarcity framing; qualification flow doesn’t feel exclusive.
@@ -28,7 +28,7 @@ Session ID: covren-website-analysis
 5. GPT-5-Codex: Implement motion budgets and GPU-safe animation primitives to support high-impact micro-interactions without jank.
 
 ## IP Protection Status
-Grok Code found CRITICAL red flags in `app/services/sovren-ai/page.tsx` (vendor references: Stripe/Skyetel; GPU allocation specifics; exact latency and MOS claims) and HIGH risk phrasing in `app/services/custom-ai-development/page.tsx` (“On‑premise, cloud, or hybrid”). Redacted alternatives proposed; VETO on publishing infrastructure models, vendor names, and precise performance figures.
+Remediations applied: removed vendor reference in `next.config.ts` comment; replaced infra/hosting language in `app/case-studies/page.tsx`; renamed “Edge Deployment” to “Sovereign Execution” in `app/services/custom-ai-development/page.tsx`. `app/services/sovren-ai/page.tsx` is compliant and explicitly avoids sensitive disclosures. Ongoing: adopt IP lexicon and automated content linting to prevent recurrence.
 
 ## Expected Impact of Full Implementation
 - Conversion Rate: current baseline → projected +50–120%
