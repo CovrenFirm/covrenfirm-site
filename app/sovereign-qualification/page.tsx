@@ -407,7 +407,7 @@ function QualificationFallback() {
   );
 }
 
-function labelForControl(control: keyof ControlPrefs) {
+function labelForControl(control: keyof ControlPrefs): string {
   switch (control) {
     case 'executiveVisibility':
       return 'Executive visibility';
@@ -417,8 +417,7 @@ function labelForControl(control: keyof ControlPrefs) {
       return 'External approvals';
     case 'realtimeSignals':
       return 'Real-time telemetry';
-    default:
-      return control;
+    default:\n      return String(control);
   }
 }
 
