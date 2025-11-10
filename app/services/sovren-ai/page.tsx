@@ -17,6 +17,8 @@ import {
   Volume2,
   TrendingUp,
 } from 'lucide-react';
+import { SOVREN_PRICING, POWER_SLOT_ADDON } from '@/lib/pricing';
+import { PricingExplorer } from '@/app/components/PricingExplorer';
 
 export default function SovrenAIPage() {
   return (
@@ -126,56 +128,23 @@ export default function SovrenAIPage() {
         <div className="mx-auto max-w-6xl px-6 py-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-8">Sovren AI Subscription Tiers — Production Pricing</h2>
           <div className="grid gap-8 md:grid-cols-3">
-            <Package
-              name="SOLO — $199/month"
-              points={[
-                'Executive Count: 2–3 AI executives',
-                'Target Market: Solopreneurs, micro-businesses, side hustles',
-                'Key Value: AI Receptionist + 1–2 C‑Suite roles (typically CFO, CMO, or COO based on business need)',
-                'Use Case: Single‑founder operations needing professional delegation without hiring humans',
-              ]}
-              cta={{
-                label: 'Apply for SOLO',
-                href: '/services/sovren-ai/sovereign-qualification?tier=solo',
-              }}
-            />
-
-            <Package
-              name="PROFESSIONAL — $349/month"
-              badge="Best Value"
-              points={[
-                'Executive Count: 5–6 AI executives',
-                'Target Market: Small businesses, established consultancies, agencies',
-                'Key Value: AI Receptionist + full core C‑Suite (CFO, CMO, COO, CTO, CLO)',
-                'Use Case: Growth-stage companies requiring multi-functional executive support for internal strategy + external customer/vendor interactions',
-              ]}
-              highlight
-              cta={{
-                label: 'Apply for PROFESSIONAL',
-                href: '/services/sovren-ai/sovereign-qualification?tier=professional',
-              }}
-            />
-
-            <Package
-              name="BUSINESS — $1,199/month"
-              points={[
-                'Executive Count: 9–10 AI executives',
-                'Target Market: SMBs with complex ops, multi-department teams',
-                'Key Value: AI Receptionist + extended Shadow Board (core C‑Suite + CHRO, CSO, CIO, CPO)',
-                'Use Case: Mature businesses needing full executive bench strength for both strategic planning and operational execution',
-              ]}
-              cta={{
-                label: 'Apply for BUSINESS',
-                href: '/services/sovren-ai/sovereign-qualification?tier=business',
-              }}
-            />
+            {SOVREN_PRICING.map((tier) => (
+              <Package
+                key={tier.id}
+                name={tier.name}
+                points={tier.summaryPoints}
+                cta={tier.cta}
+                badge={tier.badge ?? undefined}
+                highlight={Boolean(tier.highlight)}
+              />
+            ))}
           </div>
         </div>
       </section>
 
       {/* PRICING THROUGHPUT DELTAS (Interactive) */}
       <section className="mx-auto max-w-6xl px-6 py-16">
-        <InteractiveDeltas />
+        <PricingExplorer />
       </section>
 
       {/* ADD-ON: POWER SLOTS */}
@@ -183,15 +152,7 @@ export default function SovrenAIPage() {
         <div className="mx-auto max-w-6xl px-6 py-16">
           <h3 className="text-2xl font-bold mb-6">Add-On: Power Slots</h3>
           <div className="grid md:grid-cols-1">
-            <Package
-              name="Power Slot — $990/month per slot"
-              points={[
-                'Purpose: Add one additional AI executive beyond tier limits',
-                'Dedicated performance allocation for sustained workload',
-                'Typical Buyers: BUSINESS-tier subscribers requiring specialized roles (e.g., Chief Sustainability Officer, Chief Data Officer, VP of Product) or geographically distributed executive coverage',
-              ]}
-              cta={{ label: 'Discuss Power Slots', href: '/contact' }}
-            />
+            <Package name={POWER_SLOT_ADDON.name} points={POWER_SLOT_ADDON.descriptionPoints} cta={POWER_SLOT_ADDON.cta} />
           </div>
         </div>
       </section>
