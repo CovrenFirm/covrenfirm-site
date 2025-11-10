@@ -9,18 +9,21 @@ Execution Time: ~25 minutes equivalent analysis
 - Accessibility: 95–100 (semantic structure good; verify color contrast on cyan accents)
 - Best Practices: 95–100
 - SEO: 90–100 (add meta/og enhancements per page)
+  - Update: Added Open Graph and Twitter metadata in `app/layout.tsx` for richer previews.
 
 ### Critical Performance Issues (Ranked)
 1) Conflicting CSP implementations:
    - `middleware.ts` sets nonce-based strict CSP.
-   - `next.config.ts` sets permissive CSP with `'unsafe-inline'`/`'unsafe-eval'`.
-   - Fix: Consolidate on middleware nonce CSP; remove CSP header from `next.config.ts`.
+   - Resolved: `next.config.ts` no longer sets CSP; middleware nonce CSP is authoritative.
 2) Motion budgets not defined:
    - Risk for future high-intensity interactions.
-   - Fix: Establish prefers-reduced-motion fallbacks; limit JS-driven animation; prefer CSS transforms.
+   - Fix: Implemented `prefers-reduced-motion` guard in `app/consciousness-engine.tsx`; particles disabled when reduced; transitions shortened to 0. Adopt GPU-safe transforms only.
 3) Missing preloads/preconnects:
    - Fonts not preloaded; images not `next/image`.
    - Fix: Use `next/font` or preload critical font; adopt `next/image` for hero and showcases.
+4) Initial JS payload for demo components:
+   - ShadowBoard/OperatorLedger hydrated above-the-fold.
+   - Fix: Added dynamic imports with SSR disabled and skeleton fallbacks in `app/page.tsx` to defer non-critical JS.
 
 ### Animation Performance
 - Use GPU-friendly transforms (translate/scale/opacity), avoid expensive filters.
@@ -134,12 +137,12 @@ Execution Time: ~25 minutes equivalent analysis
 - Animation main-thread budget: < 2ms average
 
 ## Loading Sequence Optimization Plan
-1) Remove CSP from `next.config.ts`; keep nonce CSP in middleware.
+1) Keep CSP only in middleware (nonce + strict-dynamic).
 2) Use `next/font` or preload system font subset; ensure FOIT/FOUC minimized.
 3) Adopt `next/image` for hero/demo; set width/height to prevent CLS.
 4) Inline critical CSS (Tailwind already optimized); ensure `optimizeCss: true`.
-5) Add `prefers-reduced-motion` media queries; provide static fallbacks.
-6) Defer non-critical scripts; avoid hydration-heavy components above the fold.
+5) Add `prefers-reduced-motion` media queries; provide static fallbacks (implemented for particles/overlays).
+6) Defer non-critical scripts; avoid hydration-heavy components above the fold (dynamic imports added for demo components).
 7) Preload critical routes with `<Link prefetch>`.
 
 

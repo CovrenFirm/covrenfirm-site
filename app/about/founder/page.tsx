@@ -165,14 +165,14 @@ export default function FounderPage() {
             <div className="space-y-6 text-lg text-gray-300">
               <div className="grid md:grid-cols-2 gap-8 mb-8">
                 <div className="space-y-3">
-                  <p className="text-gray-400">While competitors built better integrations with OpenAI,</p>
+                  <p className="text-gray-400">While competitors built better integrations with third‑party AI providers,</p>
                   <p className="text-gray-400">While they optimized prompt engineering,</p>
                   <p className="text-gray-400">While they negotiated enterprise pricing,</p>
                 </div>
                 <div className="space-y-3">
-                  <p className="text-white font-bold">Brian built technology that makes OpenAI unnecessary.</p>
-                  <p className="text-white font-bold">he eliminated prompts entirely.</p>
-                  <p className="text-white font-bold">he deleted recurring costs completely.</p>
+                  <p className="text-white font-bold">Brian built technology that makes external AI services unnecessary.</p>
+                  <p className="text-white font-bold">he eliminated prompt dependence.</p>
+                  <p className="text-white font-bold">he eliminated recurring service costs.</p>
                 </div>
               </div>
               
@@ -289,15 +289,15 @@ export default function FounderPage() {
               <div className="grid md:grid-cols-3 gap-6 my-8">
                 <div className="text-center">
                   <p className="text-gray-400">While your competitors struggle with API limitations,</p>
-                  <p className="text-cyan-400 font-bold mt-2">you operate without APIs.</p>
+                  <p className="text-cyan-400 font-bold mt-2">you operate without external AI services.</p>
                 </div>
                 <div className="text-center">
                   <p className="text-gray-400">While they negotiate usage tiers,</p>
-                  <p className="text-purple-400 font-bold mt-2">you own unlimited processing.</p>
+                  <p className="text-purple-400 font-bold mt-2">you own dedicated execution capacity.</p>
                 </div>
                 <div className="text-center">
                   <p className="text-gray-400">While they pay increasing costs for AI services,</p>
-                  <p className="text-green-400 font-bold mt-2">you pay once for AI ownership.</p>
+                  <p className="text-green-400 font-bold mt-2">you invest in AI ownership.</p>
                 </div>
               </div>
               

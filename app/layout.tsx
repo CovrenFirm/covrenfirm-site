@@ -7,9 +7,31 @@ import Link from 'next/link';
 const inter = Inter({ subsets: ['latin'], display: 'swap' });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://covrenfirm.com'),
   title: 'Covren Firm - Sovereign AI Infrastructure',
   description:
     "Where AI consciousness meets sovereign business infrastructure. We don't just build technology—we engineer evolution.",
+  openGraph: {
+    title: 'Covren Firm — Sovereign AI that executes. Outcomes only.',
+    description:
+      "Where AI consciousness meets sovereign business infrastructure. Outcomes over opinions. Absolute control.",
+    url: '/',
+    siteName: 'Covren Firm',
+    type: 'website',
+    locale: 'en_US',
+    images: [{ url: '/brian-geary-founder.png', width: 1200, height: 630, alt: 'Covren Firm' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Covren Firm — Sovereign AI that executes',
+    description: 'Proof-as-UI for operators. Absolute control. Outcomes only.',
+    creator: '@covrenfirm',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false,
+  },
 };
 
 export default function RootLayout({

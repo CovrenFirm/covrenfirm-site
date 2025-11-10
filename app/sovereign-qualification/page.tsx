@@ -1,38 +1,12 @@
 'use client';
 
-import { Suspense, useEffect, useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ConsciousPage } from '@/app/consciousness-engine';
-import { SOVREN_PRICING, POWER_SLOT_ADDON, type SovrenTier } from '@/lib/pricing';
-
-type ControlPrefs = {
-  executiveVisibility: boolean;
-  legalVisibility: boolean;
-  externalApprovals: boolean;
-  realtimeSignals: boolean;
-};
-
-const DEPARTMENTS = [
-  { id: 'pipeline', label: 'Revenue pipeline orchestration' },
-  { id: 'ops', label: 'Operations & fulfillment' },
-  { id: 'comms', label: 'Executive communications' },
-  { id: 'product', label: 'Product + R&D acceleration' },
-  { id: 'custom', label: 'Custom brief (specify later)' },
-] as const;
+import { SOVREN_PRICING, POWER_SLOT_ADDON } from '@/lib/pricing';
 
 export default function SovrenAIPage() {
-  return (
-    <Suspense fallback={<QualificationFallback />}>
-      <QualificationPageInner />
-    </Suspense>
-  );
-}
-
-function QualificationPageInner() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
   const [selectedTier, setSelectedTier] = useState<SovrenTier['id'] | null>(null);
   const [intent, setIntent] = useState('');
@@ -45,51 +19,6 @@ function QualificationPageInner() {
   });
   const [notes, setNotes] = useState('');
   const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const tierParam = searchParams.get('tier');
-    if (tierParam && isSovrenTierId(tierParam)) {
-      setSelectedTier(tierParam);
-    }
-  }, [searchParams]);
-
-useEffect(() => {
-  setError(null);
-}, [step]);
-
-  const selectedTierDetails = useMemo(
-    () => SOVREN_PRICING.find((tier) => tier.id === selectedTier) ?? null,
-    [selectedTier]
-  );
-
-  function isSovrenTierId(value: string): value is SovrenTier['id'] {
-    return value === 'solo' || value === 'professional' || value === 'business';
-  }
-
-  function handleAdvance(nextStep: 1 | 2 | 3 | 4) {
-    if (step === 1) {
-      if (!intent.trim() || intent.trim().length < 16) {
-        setError('Give us the first 30-day objective in plain language (minimum 16 characters).');
-        return;
-      }
-    }
-
-    if (step === 3 && nextStep === 4 && !selectedTier) {
-      setError('Select the subscription tier we should prepare. You can change it later.');
-      return;
-    }
-
-    setStep(nextStep);
-  }
-
-  function toggleControlPref(key: keyof ControlPrefs) {
-    setControlPrefs((prev) => ({ ...prev, [key]: !prev[key] }));
-  }
-
-  function handleTierSelect(tierId: SovrenTier['id']) {
-    setSelectedTier(tierId);
-    router.push(`/sovereign-qualification?tier=${tierId}`, { scroll: false });
-  }
 
   return (
     <ConsciousPage title="Sovereign Qualification">
@@ -106,49 +35,40 @@ useEffect(() => {
           </div>
 
           <div className="grid gap-8 max-w-6xl mx-auto md:grid-cols-3">
-            {SOVREN_PRICING.map((tier) => {
-              const isSelected = selectedTier === tier.id;
-              return (
-                <section
-                  key={tier.id}
-                  aria-label={`${tier.name} tier`}
-                  className={[
-                    'rounded-2xl p-8 border backdrop-blur-sm transition-all duration-200 focus-within:ring-2 focus-within:ring-cyan-400/60',
-                    tier.highlight ? 'bg-purple-900/30 border-purple-500/40' : 'bg-slate-800/50 border-slate-700',
-                    isSelected ? 'ring-2 ring-cyan-400/70 shadow-lg shadow-cyan-900/20' : '',
-                  ].join(' ')}
-                >
-                  <div className="flex items-center gap-3 mb-2">
-                    <h3 className="text-2xl font-bold text-white">{tier.name}</h3>
-                    {tier.badge ? (
-                      <span className="text-[10px] font-semibold px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">
-                        {tier.badge}
-                      </span>
-                    ) : null}
-                  </div>
-                  <ul className="mt-4 space-y-2 text-slate-300">
-                    {tier.summaryPoints.map((p, i) => (
-                      <li key={i} className="flex items-start gap-2">
-                        <span className="mt-1 h-1.5 w-1.5 rounded-full bg-cyan-400" />
-                        <span>{p}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="mt-6">
-                    <button
-                      type="button"
-                      onClick={() => handleTierSelect(tier.id)}
-                      className={[
-                        'w-full font-bold py-3 px-6 rounded-lg transition-colors outline-none',
-                        isSelected ? 'bg-white text-black hover:opacity-90' : 'bg-purple-600 hover:bg-purple-700 text-white',
-                      ].join(' ')}
-                    >
-                      {isSelected ? 'Selected' : tier.cta.label}
-                    </button>
-                  </div>
-                </section>
-              );
-            })}
+            {SOVREN_PRICING.map((tier) => (
+              <div
+                key={tier.id}
+                className={[
+                  'rounded-2xl p-8 border backdrop-blur-sm',
+                  tier.highlight ? 'bg-purple-900/30 border-purple-500/40' : 'bg-slate-800/50 border-slate-700',
+                ].join(' ')}
+              >
+                <div className="flex items-center gap-3 mb-2">
+                  <h3 className="text-2xl font-bold text-white">{tier.name}</h3>
+                  {tier.badge ? (
+                    <span className="text-[10px] font-semibold px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                      {tier.badge}
+                    </span>
+                  ) : null}
+                </div>
+                <ul className="mt-4 space-y-2 text-slate-300">
+                  {tier.summaryPoints.map((p, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <span className="mt-1 h-1.5 w-1.5 rounded-full bg-cyan-400"></span>
+                      <span>{p}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-6">
+                  <Link
+                    href={tier.cta.href}
+                    className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-colors inline-block text-center"
+                  >
+                    {tier.cta.label}
+                  </Link>
+                </div>
+              </div>
+            ))}
           </div>
 
           <div className="max-w-6xl mx-auto mt-10">
@@ -160,7 +80,7 @@ useEffect(() => {
                   <ul className="mt-3 space-y-2 text-slate-300">
                     {POWER_SLOT_ADDON.descriptionPoints.map((p, i) => (
                       <li key={i} className="flex items-start gap-2">
-                        <span className="mt-1 h-1.5 w-1.5 rounded-full bg-cyan-400" />
+                        <span className="mt-1 h-1.5 w-1.5 rounded-full bg-cyan-400"></span>
                         <span>{p}</span>
                       </li>
                     ))}
@@ -179,17 +99,14 @@ useEffect(() => {
           </div>
 
           {/* Acceptance Protocol */}
-          <div className="max-w-3xl mx-auto mt-16 rounded-2xl border border-slate-700 bg-slate-900/50 p-6">
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <h2 className="text-2xl font-bold text-white">Acceptance Protocol</h2>
-                <p className="text-sm text-slate-400">Three inputs, one decision. Your responses are reviewed by operators—no bots.</p>
-              </div>
-              <div className="flex gap-2" aria-hidden="true">
+          <div className="max-w-3xl mx-auto mt-16 rounded-2xl border border-slate-700 bg-slate-900/40 p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-2xl font-bold text-white">Acceptance Protocol</h2>
+              <div className="flex gap-2">
                 {[1, 2, 3, 4].map((s) => (
                   <span
                     key={s}
-                    className={['h-2 w-8 rounded-full transition-colors', step >= (s as 1 | 2 | 3 | 4) ? 'bg-cyan-500' : 'bg-slate-700'].join(' ')}
+                    className={['h-2 w-8 rounded-full', step >= (s as 1 | 2 | 3 | 4) ? 'bg-cyan-500' : 'bg-slate-700'].join(' ')}
                   />
                 ))}
               </div>

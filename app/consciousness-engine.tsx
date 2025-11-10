@@ -100,6 +100,17 @@ export function ConsciousnessProvider({ children }: { children: ReactNode }) {
     return btoa(String.fromCharCode(...bytes))
   })
   const [devToolsWarning, setDevToolsWarning] = useState(false)
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
+
+  useEffect(() => {
+    const mq = typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null
+    if (mq) {
+      setPrefersReducedMotion(mq.matches)
+      const onChange = () => setPrefersReducedMotion(mq.matches)
+      mq.addEventListener?.('change', onChange)
+      return () => mq.removeEventListener?.('change', onChange)
+    }
+  }, [])
 
   // Legal gate
   useEffect(() => {
@@ -264,6 +275,7 @@ export function ConsciousnessProvider({ children }: { children: ReactNode }) {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               className="max-w-2xl w-full bg-gray-900 border-2 border-cyan-500 rounded-2xl p-8"
+              transition={{ duration: prefersReducedMotion ? 0 : 0.25 }}
             >
               <div className="flex items-center gap-3 mb-6">
                 <Lock className="w-8 h-8 text-cyan-400" />
@@ -307,23 +319,25 @@ export function ConsciousnessProvider({ children }: { children: ReactNode }) {
       {state.legalAccepted && (
         <>
           {/* Floating particles */}
-          <div className="fixed inset-0 pointer-events-none">
-            {[...Array(30)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-1 h-1 bg-cyan-400/30 rounded-full"
-                initial={{
-                  x: Math.random() * window.innerWidth,
-                  y: Math.random() * window.innerHeight,
-                }}
-                animate={{
-                  x: state.mousePosition.x + (Math.random() - 0.5) * 100,
-                  y: state.mousePosition.y + (Math.random() - 0.5) * 100,
-                }}
-                transition={{ duration: 3 + Math.random() * 2, ease: 'easeOut' }}
-              />
-            ))}
-          </div>
+          {!prefersReducedMotion && (
+            <div className="fixed inset-0 pointer-events-none">
+              {[...Array(30)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute w-1 h-1 bg-cyan-400/30 rounded-full"
+                  initial={{
+                    x: Math.random() * window.innerWidth,
+                    y: Math.random() * window.innerHeight,
+                  }}
+                  animate={{
+                    x: state.mousePosition.x + (Math.random() - 0.5) * 100,
+                    y: state.mousePosition.y + (Math.random() - 0.5) * 100,
+                  }}
+                  transition={{ duration: prefersReducedMotion ? 0 : 3 + Math.random() * 2, ease: 'easeOut' }}
+                />
+              ))}
+            </div>
+          )}
 
           <ConsciousnessOverlay />
 

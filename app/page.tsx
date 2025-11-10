@@ -2,6 +2,8 @@
 
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import dynamic from 'next/dynamic';
 import { CheckCircle, Phone, Mail } from 'lucide-react';
 import { OperatorLedger } from './components/OperatorLedger';
 import { ShadowBoard } from './components/ShadowBoard';
@@ -83,6 +85,30 @@ const STRATEGY_CONSOLE: ConsoleScenario[] = [
   },
 ];
 
+const ShadowBoard = dynamic(
+  () => import('./components/ShadowBoard').then((m) => m.ShadowBoard),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="rounded-xl border border-zinc-800 bg-black p-6 text-zinc-500">
+        Loading system board…
+      </div>
+    ),
+  }
+);
+
+const OperatorLedger = dynamic(
+  () => import('./components/OperatorLedger').then((m) => m.OperatorLedger),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="rounded-xl border border-zinc-800 bg-black p-6 text-zinc-500">
+        Loading operator ledger…
+      </div>
+    ),
+  }
+);
+
 export default function Home() {
   const bootLines = useMemo(
     () => [
@@ -96,14 +122,9 @@ export default function Home() {
     []
   );
   const [visibleCount, setVisibleCount] = useState(0);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-  const [activeMode, setActiveMode] = useState<ConsoleScenario['id']>(STRATEGY_CONSOLE[0].id);
-  const [logIndex, setLogIndex] = useState(0);
-
-  const activeScenario = useMemo(
-    () => STRATEGY_CONSOLE.find((scenario) => scenario.id === activeMode) ?? STRATEGY_CONSOLE[0],
-    [activeMode]
-  );
+  const [cmd, setCmd] = useState('');
+  const [showHelp, setShowHelp] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     setVisibleCount(0);
@@ -128,37 +149,32 @@ export default function Home() {
     return () => clearInterval(id);
   }, [bootLines.length]);
 
-  useEffect(() => {
-    if (!activeScenario) {
+  function handleCommand(input: string) {
+    const raw = input.trim().toLowerCase();
+    if (!raw) return;
+
+    if (raw === 'help' || raw === '?') {
+      setShowHelp(true);
       return;
     }
-
-    if (prefersReducedMotion) {
-      setLogIndex(Math.max(activeScenario.logs.length - 1, 0));
+    if (['brief', 'brief me', 'command', 'contact'].includes(raw)) {
+      router.push('/contact');
       return;
     }
-
-    setLogIndex(0);
-
-    if (activeScenario.logs.length <= 1) {
+    if (['qualify', 'apply', 'qualification'].includes(raw)) {
+      router.push('/sovereign-qualification');
       return;
     }
-
-    const id = window.setInterval(() => {
-      setLogIndex((current) => {
-        if (current >= activeScenario.logs.length - 1) {
-          window.clearInterval(id);
-          return current;
-        }
-        return current + 1;
-      });
-    }, 900);
-
-    return () => window.clearInterval(id);
-  }, [activeScenario, prefersReducedMotion]);
-
-  const highlightedLogIndex = Math.min(logIndex, activeScenario.logs.length - 1);
-  const logsToRender = activeScenario.logs.slice(0, highlightedLogIndex + 1);
+    if (['pricing', 'tiers', 'plans'].includes(raw)) {
+      router.push('/services/sovren-ai#pricing');
+      return;
+    }
+    if (['status', 'ledger', 'demo'].includes(raw)) {
+      router.push('#demo');
+      return;
+    }
+    setShowHelp(true);
+  }
 
   return (
     <main className="min-h-screen bg-black text-white">
@@ -197,80 +213,64 @@ export default function Home() {
             </Link>
           </div>
 
-          {/* Strategy Console */}
-          <div className="mt-8 rounded-xl border border-zinc-800 bg-black p-6">
-            <div className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
-              Sovereign strategy console
-            </div>
-            <div className="mt-4 flex flex-wrap gap-2">
-              {STRATEGY_CONSOLE.map((scenario) => (
+          {/* Command-line CTA */}
+          <div className="mt-8 rounded-xl border border-zinc-800 bg-black p-4">
+            <div className="font-mono text-sm text-zinc-400">type a command and press enter</div>
+            <form
+              className="mt-2 flex items-center gap-2"
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleCommand(cmd);
+              }}
+            >
+              <span className="font-mono text-cyan-400">{'>'}</span>
+              <input
+                value={cmd}
+                onChange={(e) => setCmd(e.target.value)}
+                placeholder="brief me | qualify | pricing | status | help"
+                className="flex-1 bg-transparent outline-none font-mono text-sm text-white placeholder-zinc-600"
+                aria-label="Command input"
+              />
+              <button
+                type="submit"
+                className="rounded-lg border border-zinc-700 px-3 py-1.5 text-sm font-semibold hover:bg-zinc-900 transition"
+                aria-label="Execute command"
+              >
+                run
+              </button>
+            </form>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {[
+                { label: 'brief me', route: '/contact' },
+                { label: 'qualify', route: '/sovereign-qualification' },
+                { label: 'pricing', route: '/services/sovren-ai#pricing' },
+                { label: 'status', route: '#demo' },
+                { label: 'help', route: null },
+              ].map((c) => (
                 <button
-                  key={scenario.id}
-                  type="button"
-                  onClick={() => setActiveMode(scenario.id)}
-                  className={[
-                    'rounded-full border px-4 py-1.5 text-sm font-semibold transition',
-                    activeMode === scenario.id
-                      ? 'border-white bg-white text-black'
-                      : 'border-zinc-800 bg-zinc-950 text-zinc-300 hover:border-zinc-600',
-                  ].join(' ')}
-                  aria-pressed={activeMode === scenario.id}
+                  key={c.label}
+                  onClick={() => {
+                    if (c.route) router.push(c.route);
+                    else setShowHelp(true);
+                  }}
+                  className="rounded-md border border-zinc-800 bg-zinc-950 px-2.5 py-1 text-xs text-zinc-300 hover:bg-black transition"
                 >
-                  {scenario.label}
+                  {c.label}
                 </button>
               ))}
             </div>
-            <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]">
-              <div>
-                <p className="text-xs uppercase tracking-wide text-zinc-500">Outcome</p>
-                <h3 className="mt-2 text-2xl font-bold text-white">{activeScenario.headline}</h3>
-                <p className="mt-3 text-zinc-300">{activeScenario.summary}</p>
-                <div className="mt-6 flex flex-wrap gap-3">
-                  <Link
-                    href={activeScenario.primary.href}
-                    className="rounded-lg bg-white px-5 py-2 text-sm font-semibold text-black hover:opacity-90 transition"
-                  >
-                    {activeScenario.primary.label}
-                  </Link>
-                  {activeScenario.secondary ? (
-                    <Link
-                      href={activeScenario.secondary.href}
-                      className="rounded-lg border border-zinc-700 px-5 py-2 text-sm font-semibold hover:bg-zinc-900 transition"
-                    >
-                      {activeScenario.secondary.label}
-                    </Link>
-                  ) : null}
-                </div>
-              </div>
-              <div className="rounded-lg border border-zinc-800 bg-zinc-950 p-4">
-                <p className="text-xs uppercase tracking-wide text-zinc-500">Live telemetry</p>
-                <ul className="mt-3 space-y-2 font-mono text-sm">
-                  {logsToRender.map((log, idx) => (
-                    <li
-                      key={`${activeScenario.id}-log-${idx}`}
-                      className={[
-                        'flex items-start gap-2',
-                        idx === highlightedLogIndex ? 'text-cyan-300' : 'text-zinc-500',
-                      ].join(' ')}
-                    >
-                      <span className="text-cyan-500">▹</span>
-                      <span>{log}</span>
-                    </li>
-                  ))}
+            {showHelp ? (
+              <div className="mt-4 rounded-lg border border-zinc-800 bg-zinc-950 p-3">
+                <div className="font-mono text-xs text-zinc-400">available commands</div>
+                <ul className="mt-2 grid gap-1 text-sm">
+                  <li><span className="font-mono text-cyan-400">brief me</span> — open Command Briefing</li>
+                  <li><span className="font-mono text-cyan-400">qualify</span> — start Sovereign Qualification</li>
+                  <li><span className="font-mono text-cyan-400">pricing</span> — view subscription tiers</li>
+                  <li><span className="font-mono text-cyan-400">status</span> — jump to Proof-as-UI</li>
+                  <li><span className="font-mono text-cyan-400">help</span> — show this list</li>
                 </ul>
-                <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                  {activeScenario.signals.map((signal) => (
-                    <div
-                      key={`${activeScenario.id}-${signal.label}`}
-                      className="rounded-lg border border-zinc-800 bg-black/40 p-3 text-left"
-                    >
-                      <p className="text-[11px] uppercase tracking-wider text-zinc-500">{signal.label}</p>
-                      <p className="mt-1 text-lg font-semibold text-white">{signal.value}</p>
-                    </div>
-                  ))}
-                </div>
               </div>
-            </div>
+            ) : null}
           </div>
         </div>
       </section>

@@ -17,7 +17,7 @@ export default function UseCasesPage() {
           </h1>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             Explore how SOVREN AI's capabilities translate into real business advantages. 
-            These aren't promises - they're the natural outcomes of owning your AI infrastructure.
+            These aren't promises — they're the natural outcomes of complete sovereignty over your AI capabilities.
           </p>
         </section>
 
@@ -111,8 +111,8 @@ export default function UseCasesPage() {
             
             <div className="bg-gradient-to-r from-purple-900/20 to-pink-900/20 rounded-lg p-6">
               <p className="text-purple-300 italic">
-                "The difference isn't in the AI's capabilities - it's in who owns those capabilities. 
-                When you own the infrastructure, every client interaction makes your entire firm smarter."
+                "The difference isn't in the AI's capabilities — it's in who controls them. 
+                When you own the execution surface, every client interaction makes your entire firm smarter."
               </p>
             </div>
           </div>
@@ -153,9 +153,8 @@ export default function UseCasesPage() {
           <h2 className="text-3xl font-bold text-white mb-8 text-center">Let's Be Real About AI</h2>
           <div className="max-w-4xl mx-auto space-y-6 text-gray-300">
             <p>
-              <strong className="text-white">SOVREN AI isn't magic.</strong> It's infrastructure. 
-              Just like owning your servers instead of renting cloud space, owning your AI means 
-              you control the costs, the data, and the evolution.
+              <strong className="text-white">SOVREN AI isn't magic.</strong> It's an operating system for outcomes. 
+              When you control the execution surface, you control the costs, the data, and the evolution.
             </p>
             <p>
               <strong className="text-white">Success requires commitment.</strong> You'll need to 
@@ -196,7 +195,7 @@ export default function UseCasesPage() {
               <Shield className="w-10 h-10 text-green-400 mb-4" />
               <h3 className="text-xl font-bold text-white mb-2">True Data Sovereignty</h3>
               <p className="text-gray-300">
-                Your data never leaves your infrastructure. No training someone else's models. 
+                Complete data sovereignty. No training third‑party models with your data. 
                 No competitive intelligence leakage.
               </p>
             </div>

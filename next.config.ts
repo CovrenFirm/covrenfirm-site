@@ -3,7 +3,7 @@ import type { NextConfig } from 'next';
 
 /**
  * Security headers
- * - HSTS assumes you’re serving via HTTPS (Render). If you have subdomains you want strict, add ; includeSubDomains
+ * - HSTS assumes you’re serving via HTTPS. If you have subdomains you want strict, add ; includeSubDomains
  */
 const securityHeaders = [
   { key: 'Referrer-Policy', value: 'no-referrer' },
