@@ -23,7 +23,8 @@ function cspWithNonce(nonce: string): string {
 
     // scripts: allow self + nonced scripts + https script elements (no eval). Avoid strict-dynamic to keep host allowlists.
     `script-src 'self' 'nonce-${nonce}' https:`,
-    `script-src-elem 'self' 'nonce-${nonce}' https:`,
+    // allow inline script elements to support Next.js runtime inline chunks (__NEXT_DATA__, webpack runtime)
+    `script-src-elem 'self' 'unsafe-inline' 'nonce-${nonce}' https:`,
     `script-src-attr 'none'`,
 
     // styles: allow inline for frameworks and small runtime styles
