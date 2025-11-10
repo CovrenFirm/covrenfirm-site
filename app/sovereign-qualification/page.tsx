@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ConsciousPage } from '@/app/consciousness-engine';
@@ -14,7 +14,7 @@ type ControlPrefs = {
 	realtimeSignals: boolean;
 };
 
-export default function SovrenAIPage() {
+function SovrenQualificationClient() {
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
   const [selectedTier, setSelectedTier] = useState<SovrenTier['id'] | null>(null);
   const [intent, setIntent] = useState('');
@@ -414,6 +414,14 @@ export default function SovrenAIPage() {
         </div>
       </div>
     </ConsciousPage>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<QualificationFallback />}>
+      <SovrenQualificationClient />
+    </Suspense>
   );
 }
 
