@@ -3,7 +3,7 @@ import type { NextConfig } from 'next';
 
 /**
  * Security headers
- * - HSTS assumes you’re serving via HTTPS. If you have subdomains you want strict, add ; includeSubDomains
+ * - HSTS assumes you're serving via HTTPS. If you have subdomains you want strict, add ; includeSubDomains
  */
 const securityHeaders = [
   { key: 'Referrer-Policy', value: 'no-referrer' },
@@ -15,7 +15,10 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  experimental: {\n    optimizeCss: true, // keeps Critters effective\n  },\n  eslint: { ignoreDuringBuilds: true },\n
+  experimental: {
+    optimizeCss: true, // keeps Critters effective
+  },
+  eslint: { ignoreDuringBuilds: true },
   async headers() {
     return [
       {
